@@ -2,110 +2,694 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy 4th Anniversary, My Drama Queen! ❤️✨</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Happy 4th Anniversary Krishnakoli | From Brownie</title>
+  <meta name="theme-color" content="#f43f5e">
   
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Google Fonts: Hind Siliguri (Bengali), Dancing Script, Inter -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            bengali: ['"Hind Siliguri"', 'sans-serif'],
-            cursive: ['"Dancing Script"', 'cursive'],
-            sans: ['"Inter"', 'sans-serif'],
-          },
-          colors: {
-            blush: {
-              50: '#fff5f7',
-              100: '#ffe4ea',
-              200: '#fecdd8',
-              300: '#fda4bc',
-              400: '#fb7197',
-              500: '#f43f73',
-              600: '#e11d5a',
-              700: '#be1245',
-            },
-            parchment: '#fcf8f2',
-            goldAccent: '#dfa376',
-            wine: '#4a1525',
-          },
-          animation: {
-            'float-slow': 'floatSlow 4s ease-in-out infinite',
-            'wax-glow': 'waxGlow 2.5s infinite alternate',
-            'shimmer': 'shimmer 2s infinite linear',
-          },
-          keyframes: {
-            floatSlow: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-8px)' },
-            },
-            waxGlow: {
-              '0%': { filter: 'drop-shadow(0 0 4px rgba(225, 29, 90, 0.4))' },
-              '100%': { filter: 'drop-shadow(0 0 14px rgba(225, 29, 90, 0.8))' },
-            }
-          }
-        }
-      }
-    }
-  </script>
-
   <style>
-    /* Glassmorphism Cards */
-    .glass-card {
-      background: rgba(255, 255, 255, 0.78);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      box-shadow: 0 12px 35px rgba(225, 29, 90, 0.08);
-    }
-    
-    .glass-card-hover {
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .glass-card-hover:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 16px 40px rgba(225, 29, 90, 0.12);
+    :root {
+      --primary: #f43f5e;
+      --primary-dark: #be123c;
+      --primary-light: #ffe4e6;
+      --rose-gold: #fb7185;
+      --bg-cream: #fffaf9;
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --card-border: rgba(251, 113, 133, 0.22);
+      --text-main: #33141a;
+      --text-muted: #884d59;
+      --gold: #d97706;
+      --gold-light: #fef3c7;
+      --shadow-sm: 0 4px 15px rgba(244, 63, 94, 0.08);
+      --shadow-md: 0 10px 30px rgba(244, 63, 94, 0.14);
+      --shadow-lg: 0 20px 40px rgba(190, 18, 60, 0.18);
     }
 
-    /* Interactive Background Canvas */
-    #particleCanvas {
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', 'Anek Bangla', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(255, 228, 230, 0.6) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(254, 205, 211, 0.5) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(255, 241, 242, 0.4) 0px, transparent 60%);
+      background-attachment: fixed;
+    }
+
+    #ambientCanvas {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
-      z-index: 0;
+      z-index: 1;
     }
 
-    /* Scroll aesthetic */
-    .parchment-scroll {
-      background: linear-gradient(135deg, #fefbf6 0%, #faede1 100%);
-      border: 2px dashed #e4bca2;
-      box-shadow: inset 0 0 20px rgba(183, 110, 121, 0.1), 0 10px 25px rgba(0,0,0,0.05);
+    .app-container {
+      position: relative;
+      z-index: 2;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 24px 16px 80px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
     }
 
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 24px 20px;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .audio-pill {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: 50px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+      transition: all 0.25s ease;
+    }
+
+    .audio-pill:hover {
+      transform: scale(1.04);
+      background: #fff;
+    }
+
+    .music-bar {
+      display: inline-block;
+      width: 3px;
+      height: 12px;
+      background-color: var(--primary);
+      border-radius: 2px;
+      animation: barJump 0.8s ease-in-out infinite alternate;
+    }
+    .music-bar:nth-child(2) { animation-delay: 0.2s; height: 16px; }
+    .music-bar:nth-child(3) { animation-delay: 0.4s; height: 8px; }
+    .music-paused .music-bar { animation: none; height: 3px; }
+
+    @keyframes barJump {
+      0% { transform: scaleY(0.4); }
+      100% { transform: scaleY(1.4); }
+    }
+
+    .hero-header {
+      text-align: center;
+      padding: 24px 10px 10px 10px;
+    }
+
+    .badge-anniversary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%);
+      color: var(--primary-dark);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 10px rgba(244, 63, 94, 0.12);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.3rem;
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #e11d48, #f43f5e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-family: 'Anek Bangla', sans-serif;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .clock-card {
+      text-align: center;
+      background: linear-gradient(165deg, #ffffff 0%, #fff1f2 100%);
+      border: 1px solid rgba(244, 63, 94, 0.28);
+    }
+
+    .clock-header {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .clock-since {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      font-family: 'Anek Bangla', sans-serif;
+    }
+
+    .timer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .time-slot {
+      background: #ffffff;
+      border: 1px solid var(--primary-light);
+      border-radius: 18px;
+      padding: 12px 6px;
+      box-shadow: 0 4px 12px rgba(244, 63, 94, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .time-slot::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #fb7185, #f43f5e);
+    }
+
+    .time-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      line-height: 1.1;
+    }
+
+    .time-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Swipeable Photo Gallery */
+    .gallery-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gallery-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .gallery-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--text-main);
+    }
+
+    .gallery-counter {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 4px 10px;
+      border-radius: 50px;
+    }
+
+    .slider-track-wrap {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 20px;
+      position: relative;
+      touch-action: pan-y;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .slider-track-wrap:active {
+      cursor: grabbing;
+    }
+
+    .slider-track {
+      display: flex;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      width: 100%;
+    }
+
+    .slide {
+      min-width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .polaroid-frame {
+      background: #ffffff;
+      padding: 12px 12px 18px 12px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+    }
+
+    .polaroid-img-wrapper {
+      width: 100%;
+      height: 310px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fdf2f4;
+      position: relative;
+    }
+
+    .polaroid-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .polaroid-caption {
+      font-family: 'Anek Bangla', cursive, sans-serif;
+      margin-top: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    .polaroid-tag {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 0.72rem;
+      color: var(--rose-gold);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .slider-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding: 0 10px;
+    }
+
+    .nav-btn {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      color: var(--primary);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      transform: scale(1.08);
+    }
+
+    .dots-container {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 200px;
+    }
+
+    .dot {
       width: 6px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #fda4bc;
-      border-radius: 9999px;
+      height: 6px;
+      border-radius: 50%;
+      background: #fecdd3;
+      transition: all 0.3s ease;
+      cursor: pointer;
     }
 
-    /* Scratch/Stamp Overlay Canvas */
+    .dot.active {
+      width: 16px;
+      border-radius: 8px;
+      background: var(--primary);
+    }
+
+    /* Poem Scroll */
+    .poem-scroll {
+      background: linear-gradient(145deg, #fffcf4 0%, #fef3c7 100%);
+      border: 1px solid rgba(217, 119, 6, 0.25);
+      border-radius: 24px;
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(217, 119, 6, 0.08);
+    }
+
+    .poem-header {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+
+    .poem-lines {
+      font-family: 'Anek Bangla', serif;
+      font-size: 1.15rem;
+      line-height: 2;
+      color: #78350f;
+      font-weight: 600;
+    }
+
+    /* Love Letter */
+    .letter-card {
+      position: relative;
+      background: linear-gradient(175deg, #ffffff 0%, #fffaf9 100%);
+      border: 1px solid rgba(244, 63, 94, 0.22);
+      overflow: hidden;
+    }
+
+    .wax-seal-btn {
+      background: linear-gradient(135deg, #e11d48, #be123c);
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(190, 18, 60, 0.28);
+      transition: all 0.25s ease;
+      font-family: 'Anek Bangla', sans-serif;
+      margin: 10px auto;
+    }
+
+    .wax-seal-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    .letter-preview {
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .letter-content {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
+      font-family: 'Anek Bangla', sans-serif;
+      color: var(--text-main);
+      line-height: 1.85;
+      font-size: 1rem;
+      text-align: left;
+    }
+
+    .letter-content.open {
+      max-height: 2500px;
+      opacity: 1;
+      padding-top: 20px;
+      border-top: 1px dashed rgba(244, 63, 94, 0.3);
+      margin-top: 16px;
+    }
+
+    .letter-body p {
+      margin-bottom: 14px;
+      text-align: justify;
+    }
+
+    .letter-signature {
+      margin-top: 24px;
+      text-align: right;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--primary-dark);
+    }
+
+    /* Drama-o-meter */
+    .meter-section {
+      text-align: center;
+    }
+
+    .meter-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .meter-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-family: 'Anek Bangla', sans-serif;
+      margin-bottom: 18px;
+    }
+
+    .slider-wrap {
+      padding: 10px 14px;
+    }
+
+    .drama-range {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 10px;
+      border-radius: 10px;
+      background: linear-gradient(to right, #4ade80 0%, #fbbf24 35%, #f87171 70%, #9333ea 100%);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .drama-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid var(--primary);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+
+    .status-box {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid var(--card-border);
+      min-height: 82px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .status-emoji {
+      font-size: 1.8rem;
+      margin-bottom: 4px;
+    }
+
+    .status-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--primary-dark);
+      font-family: 'Anek Bangla', sans-serif;
+    }
+
+    .status-reaction {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-family: 'Anek Bangla', sans-serif;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .stat-box {
+      background: #ffffff;
+      border: 1px solid var(--primary-light);
+      border-radius: 20px;
+      padding: 16px 12px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat-icon {
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+    }
+
+    .stat-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    .stat-lbl {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: 'Anek Bangla', sans-serif;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .jar-section {
+      text-align: center;
+    }
+
+    .jar-box {
+      background: #fff;
+      border: 2px dashed rgba(244, 63, 94, 0.35);
+      border-radius: 22px;
+      padding: 20px;
+      margin-top: 14px;
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Anek Bangla', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    .jar-btn {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      border: 1px solid var(--primary);
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      margin-top: 14px;
+      font-family: 'Anek Bangla', sans-serif;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .jar-btn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .voucher-card {
+      text-align: center;
+      background: linear-gradient(135deg, #fff5f5 0%, #fff 100%);
+      border: 2px dashed var(--rose-gold);
+    }
+
+    .scratch-area {
+      position: relative;
+      width: 100%;
+      max-width: 340px;
+      height: 140px;
+      margin: 16px auto 8px auto;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    }
+
+    .scratch-secret {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      font-family: 'Anek Bangla', sans-serif;
+      text-align: center;
+      user-select: none;
+    }
+
+    .scratch-secret h4 {
+      color: var(--primary-dark);
+      font-size: 1.15rem;
+      margin-bottom: 4px;
+    }
+
+    .scratch-secret p {
+      font-size: 0.85rem;
+      color: var(--text-main);
+    }
+
     #scratchCanvas {
       position: absolute;
       top: 0;
@@ -113,222 +697,102 @@
       width: 100%;
       height: 100%;
       cursor: crosshair;
-      border-radius: 1rem;
       touch-action: none;
+    }
+
+    .voucher-status {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      font-family: 'Anek Bangla', sans-serif;
+    }
+
+    .footer-section {
+      text-align: center;
+      padding: 16px 0;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-family: 'Anek Bangla', sans-serif;
+    }
+
+    .footer-section span {
+      color: var(--primary);
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-[#fff1f4] via-[#fff5f7] to-[#ffe9ee] text-gray-800 font-sans min-h-screen relative overflow-x-hidden selection:bg-blush-200">
+<body>
 
-  <!-- Interactive Floating Background Canvas -->
-  <canvas id="particleCanvas"></canvas>
+  <canvas id="ambientCanvas"></canvas>
 
-  <!-- Sticky Floating Music & Controls Header -->
-  <header class="sticky top-0 z-40 backdrop-blur-md bg-white/70 border-b border-pink-100/80 px-4 py-2.5">
-    <div class="max-w-4xl mx-auto flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <span class="text-xl animate-bounce">👑</span>
-        <span class="text-xs sm:text-sm font-bold tracking-wide text-blush-600 font-cursive text-lg sm:text-xl">
-          Deepra & Brownie
-        </span>
-        <span class="hidden sm:inline-block px-2 py-0.5 rounded-full bg-blush-100 text-[10px] text-blush-700 font-semibold uppercase tracking-wider">
-          4th Anniversary
-        </span>
-      </div>
-
-      <!-- Synthesized Lo-Fi Music Box Player Button -->
-      <button id="musicToggleBtn" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-pink-200 text-xs font-medium text-blush-600 shadow-sm hover:shadow-md hover:bg-blush-50 transition active:scale-95" aria-label="Toggle romantic music">
-        <span id="musicIcon" class="text-sm">🎵</span>
-        <span id="musicStatusText">Romantic Chime: OFF</span>
-      </button>
+  <div class="audio-pill" id="audioToggle" title="Romantic Lo-Fi Music Box Chime">
+    <div style="display: flex; align-items: center; gap: 3px;" class="music-paused" id="waveWrap">
+      <span class="music-bar"></span>
+      <span class="music-bar"></span>
+      <span class="music-bar"></span>
     </div>
-  </header>
+    <span id="musicText">BGM বাজাও 🎵</span>
+  </div>
 
-  <!-- Main App Container -->
-  <main class="relative z-10 max-w-3xl mx-auto px-4 pt-6 pb-24 space-y-10">
+  <div class="app-container">
 
-    <!-- 1. HERO TITLE & BANNER -->
-    <section class="text-center pt-2 space-y-4">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-blush-200 text-blush-600 text-xs sm:text-sm font-semibold shadow-sm animate-float-slow">
-        <span>✨</span> 4 Glorious Years of Drama & Boundless Love <span>✨</span>
+    <header class="hero-header">
+      <div class="badge-anniversary">
+        <span>✨ 4 Years of Togetherness ✨</span>
       </div>
+      <h1 class="hero-title">Happy 4th Anniversary,<br><span>Krishnakoli!</span> 👑</h1>
+      <p class="hero-subtitle">শত ঝড়, একরাশ পাগলামি, আর উপচে পড়া নিখাদ ভালোবাসার চারটে বছর ❤️</p>
+    </header>
+
+    <section class="glass-card clock-card">
+      <div class="clock-header">
+        <span>⏳ LIVE TIME TOGETHER</span>
+      </div>
+      <div class="clock-since">২২শে অক্টোবর, ২০২৩ থেকে প্রতিটি সেকেন্ডের সাক্ষী...</div>
       
-      <h1 class="text-4xl sm:text-6xl font-cursive font-bold text-transparent bg-clip-text bg-gradient-to-r from-blush-600 via-rose-500 to-blush-700 leading-tight">
-        Happy 4th Anniversary, Babyyyyy! ❤️
-      </h1>
-      
-      <p class="font-bengali text-gray-700 max-w-lg mx-auto text-base sm:text-lg leading-relaxed">
-        দেখতে দেখতে ৪টে বছর পার! কত ঝড়, ঝগড়াঝাঁটি, কান্নাকাটি আর তার সাথে একরাশ ভালোবাসা... <br class="hidden sm:inline">
-        <span class="text-blush-600 font-semibold">"তুই তুই-ই থাকবি, আমি আমি-ই থাকব—শুধু দিনগুলো একসাথে এগিয়ে যাবে!"</span>
-      </p>
-
-      <div class="flex flex-wrap justify-center items-center gap-2 pt-1 text-xs text-gray-600 font-medium">
-        <span class="px-3 py-1 rounded-full bg-white/80 border border-pink-100">👑 Drama Queen</span>
-        <span>•</span>
-        <span class="px-3 py-1 rounded-full bg-white/80 border border-pink-100">🍪 Brownie</span>
-        <span>•</span>
-        <span class="px-3 py-1 rounded-full bg-white/80 border border-pink-100">♾️ More to Go</span>
-      </div>
-    </section>
-
-    <!-- 2. LIVE RELATIONSHIP STOPWATCH / TICKER -->
-    <section class="glass-card rounded-3xl p-6 sm:p-7 space-y-4 border border-white/90">
-      <div class="flex items-center justify-between border-b border-pink-100 pb-3">
-        <div class="flex items-center gap-2">
-          <span class="text-xl">⏱️</span>
-          <h2 class="text-sm sm:text-base font-bold text-gray-800">Together In Love (Live Stopwatch)</h2>
+      <div class="timer-grid">
+        <div class="time-slot">
+          <div class="time-num" id="dNum">0</div>
+          <div class="time-label">দিন (Days)</div>
         </div>
-        <span class="text-[11px] font-mono text-blush-600 bg-blush-50 px-2 py-0.5 rounded-md border border-blush-200">
-          Running Live • 4 Years+
-        </span>
-      </div>
-
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-        <!-- Days -->
-        <div class="bg-white/80 rounded-2xl p-3 border border-pink-100/80 shadow-sm">
-          <span id="counterDays" class="block font-mono text-2xl sm:text-3xl font-extrabold text-blush-600">1461</span>
-          <span class="text-[11px] text-gray-500 font-medium">Days</span>
+        <div class="time-slot">
+          <div class="time-num" id="hNum">00</div>
+          <div class="time-label">ঘণ্টা (Hrs)</div>
         </div>
-        <!-- Hours -->
-        <div class="bg-white/80 rounded-2xl p-3 border border-pink-100/80 shadow-sm">
-          <span id="counterHours" class="block font-mono text-2xl sm:text-3xl font-extrabold text-blush-600">00</span>
-          <span class="text-[11px] text-gray-500 font-medium">Hours</span>
+        <div class="time-slot">
+          <div class="time-num" id="mNum">00</div>
+          <div class="time-label">মিনিট (Mins)</div>
         </div>
-        <!-- Minutes -->
-        <div class="bg-white/80 rounded-2xl p-3 border border-pink-100/80 shadow-sm">
-          <span id="counterMins" class="block font-mono text-2xl sm:text-3xl font-extrabold text-blush-600">00</span>
-          <span class="text-[11px] text-gray-500 font-medium">Minutes</span>
-        </div>
-        <!-- Seconds -->
-        <div class="bg-white/80 rounded-2xl p-3 border border-pink-100/80 shadow-sm">
-          <span id="counterSecs" class="block font-mono text-2xl sm:text-3xl font-extrabold text-rose-500">00</span>
-          <span class="text-[11px] text-gray-500 font-medium">Seconds</span>
-        </div>
-      </div>
-      
-      <p class="text-center text-xs font-bengali text-gray-500 pt-1">
-        প্রতিটি সেকেন্ডে আমাদের ভালোবাসা একটু একটু করে বেড়ে চলেছে... 🕊️
-      </p>
-    </section>
-
-    <!-- 3. INTERACTIVE "DRAMA-O-METER" (QUEEN'S MOOD SLIDER) -->
-    <section class="glass-card rounded-3xl p-6 sm:p-7 space-y-4">
-      <div class="flex items-center justify-between">
-        <h2 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
-          <span>😼</span> Queen's Drama-O-Meter
-        </h2>
-        <span class="text-xs text-blush-600 font-semibold bg-blush-50 px-2 py-0.5 rounded-full">Interactive</span>
-      </div>
-
-      <p class="text-xs sm:text-sm text-gray-600 font-bengali">
-        আজকে ব্রাউনির মুড ঠিক কোন লেভেলে আছে? নিচে স্লাইডারটি টেনে চেক করে নাও:
-      </p>
-
-      <!-- Slider Component -->
-      <div class="pt-2">
-        <input 
-          id="moodSlider" 
-          type="range" 
-          min="0" 
-          max="3" 
-          step="1" 
-          value="2" 
-          class="w-full accent-blush-500 h-2.5 bg-pink-200 rounded-lg cursor-pointer"
-        />
-        <div class="flex justify-between text-[11px] sm:text-xs text-gray-500 font-bengali pt-2 px-1">
-          <span>শান্ত বিড়াল ছানা 🐱</span>
-          <span>হালকা অভিমান 🥺</span>
-          <span>ফুল ড্রামা কুইন 😼</span>
-          <span>Space Chai Mode 🚀</span>
-        </div>
-      </div>
-
-      <!-- Reactive Output Card -->
-      <div id="moodReactionBox" class="p-4 rounded-2xl bg-white/95 border border-pink-200 shadow-sm flex items-start gap-3 transition-all duration-300">
-        <span id="moodReactionEmoji" class="text-3xl sm:text-4xl">😼</span>
-        <div class="space-y-1">
-          <h4 id="moodReactionTitle" class="font-bold text-sm sm:text-base text-blush-600 font-bengali">ফুল ড্রামা কুইন ব্লাস্ট!</h4>
-          <p id="moodReactionDesc" class="text-xs sm:text-sm text-gray-700 font-bengali leading-relaxed">
-            "আমি তো রানী, এত বকা সহ্য করতে পারি না!" — একটু পরেই কান্নাকাটি, রাগ ভাঙানো আর সাথে টাইট হাগ!
-          </p>
+        <div class="time-slot">
+          <div class="time-num" id="sNum">00</div>
+          <div class="time-label">সেকেন্ড (Secs)</div>
         </div>
       </div>
     </section>
 
-    <!-- 4. WAX-SEALED ENVELOPE (UNFOLDING BENGALI LOVE LETTER) -->
-    <section class="glass-card rounded-3xl p-6 sm:p-8 space-y-6">
-      <div class="text-center space-y-1">
-        <span class="text-xs font-semibold text-blush-600 uppercase tracking-widest">Secret Message</span>
-        <h2 class="text-2xl font-bold font-cursive text-gray-800">The 4th Anniversary Love Letter</h2>
-        <p class="text-xs sm:text-sm text-gray-500 font-bengali">খামটির ওপর ক্লিক করে মনের কথাটি খুলে পড়ো</p>
+    <!-- 13 Photo Polaroid Carousel -->
+    <section class="glass-card gallery-container">
+      <div class="gallery-header">
+        <div>
+          <h3>আমাদের ফ্রেমবন্দী মুহূর্ত 📸</h3>
+          <p style="font-size: 0.78rem; color: var(--text-muted); font-family: 'Anek Bangla';">সোয়াইপ করে দেখো আমাদের ১৩টি স্মৃতি</p>
+        </div>
+        <div class="gallery-counter" id="slideCounter">1 / 13</div>
       </div>
 
-      <!-- Clickable Wax Sealed Envelope Presentation -->
-      <div id="envelopeWrapper" class="relative max-w-sm mx-auto cursor-pointer group transition-transform duration-300 hover:scale-105 active:scale-95">
-        <div class="bg-gradient-to-br from-pink-100 via-rose-50 to-pink-200 rounded-2xl p-6 border-2 border-blush-300 shadow-md text-center space-y-3 relative overflow-hidden">
-          
-          <!-- Diagonal envelope fold lines design -->
-          <div class="absolute inset-0 border-t-2 border-pink-200 pointer-events-none opacity-40"></div>
-          
-          <!-- Wax Seal Button -->
-          <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-tr from-rose-700 to-blush-500 flex items-center justify-center text-white text-2xl shadow-lg animate-wax-glow border-2 border-white/60">
-            💌
-          </div>
-
-          <div class="font-cursive text-xl font-bold text-blush-600">To My Beloved Brownie</div>
-          <p class="text-xs font-bengali text-gray-600 font-medium">
-            (এখানে ট্যাপ করে চিঠিটি আনলক করো)
-          </p>
-        </div>
+      <div class="slider-track-wrap" id="sliderTrackWrap">
+        <div class="slider-track" id="sliderTrack"></div>
       </div>
 
-      <!-- Unfolded Letter Content (Hidden by default) -->
-      <div id="letterBody" class="hidden transition-all duration-700 ease-out space-y-6 pt-2 font-bengali">
-        
-        <!-- Bengali Emotional Letter Card -->
-        <div class="p-5 sm:p-7 rounded-2xl bg-white/95 border border-pink-200 shadow-inner space-y-4 text-gray-700 text-sm sm:text-base leading-relaxed">
-          <div class="flex items-center justify-between border-b border-pink-100 pb-2">
-            <span class="font-cursive text-xl sm:text-2xl font-bold text-blush-600">Happy 4th Anniversary, My Drama Queen! ❤️</span>
-            <span class="text-xs text-gray-400">Oct 2026</span>
-          </div>
-
-          <p>
-            তোর মেসেজটা পড়ে সত্যি ভেতরটা কেমন যেন করে উঠলো রে। দেখতে দেখতে চারটে বছর কেটে গেল, ভাবলেই গায়ে কাঁটা দেয়। আমাদের এই চারটে বছর কোনো রূপকথার মতো পারফেক্ট ছিল না—বরং একদম সত্যি একটা জার্নি ছিল। কত লড়াই, কত ভুল বোঝাবুঝি, চিৎকার, বাচ্চাদের মতো কান্না, মাঝেমধ্যে মনে হওয়া যে আর বুঝি পারছি না... আর তার ঠিক পরেই আবার দুজনে দুজনকে জড়িয়ে ধরে শক্ত করে আঁকড়ে ধরা।
-          </p>
-
-          <p>
-            তুই যে বললি না <em>"তোর মতো অত ভালো হয়তো আমি তোকে বাসতে পারি না"</em>—এই ভুল ভাবনাটা মাথা থেকে একদম মুছে ফেল। ভালোবাসার কোনো পরিমাপ হয় না রে পাগলি। তুই যে তোর রাগ, জেদ, অভিমান, সমস্ত পাগলামি নির্দ্বিধায় আমার ওপর উগরে দিতে পারিস, আর দিনশেষে আমার বুকেই শান্তি খুঁজিস—এটাই আমার কাছে পৃথিবীর সবচেয়ে খাঁটি ভালোবাসা। তুই যেমন আছিস, একদম তেমনই থাকবি; আমি তো তোকেই ভালোবেসেছি, কোনো নিখুঁত পুতুলকে নয়।
-          </p>
-
-          <p>
-            তোর মাঝে মাঝেই মাথা গরম হয়ে "স্পেস চাই" বলা, কথা বন্ধ করে মুখ ফুলিয়ে বসে থাকা, আবার খানিকক্ষণ পরেই এসে জড়িয়ে ধরা—এইসব নিয়েই তুই আমার জীবনের সবচেয়ে সুন্দর অংশ। তোর ওপর রাগ করলেও তোকে ছেড়ে থাকার কথা আমি এক মুহূর্তের জন্যেও ভাবতে পারি না। তোর সমস্ত যন্ত্রণা আর সমস্ত পাগলামি সারাজীবন সামলানোর দায়িত্বটা কিন্তু শুধু আমারই। চারটে বছর তো সবে পথচলার শুরু, সামনে আরও কত শত ঝড়-ঝাপটা আসবে, কিন্তু তোর হাতটা আমি কখনোই ছাড়ব না।
-          </p>
-
-          <p class="font-semibold text-blush-600 pt-2 border-t border-pink-50">
-            অনেক অনেক ভালোবাসি তোকে, আমার ব্রাউনি! কাল দেখা হলেই কিন্তু ওই প্রমিজ করা কিসসি-টা আমার আগে চাই! 😚❤️
-          </p>
-        </div>
-
-        <div class="text-center">
-          <button id="closeLetterBtn" class="px-4 py-1.5 rounded-full bg-blush-100 text-blush-600 text-xs font-semibold hover:bg-blush-200 transition">
-            চিঠিটি আবার ভাঁজ করো ✉️
-          </button>
-        </div>
+      <div class="slider-nav">
+        <button class="nav-btn" id="prevBtn" aria-label="Previous Photo">❮</button>
+        <div class="dots-container" id="dotsContainer"></div>
+        <button class="nav-btn" id="nextBtn" aria-label="Next Photo">❯</button>
       </div>
     </section>
 
-    <!-- 5. THE POEM SCROLL (PARCHMENT AESTHETIC) -->
-    <section class="parchment-scroll rounded-3xl p-6 sm:p-9 text-center space-y-4 relative overflow-hidden">
-      <!-- Decorative floral corners -->
-      <span class="absolute top-3 left-3 text-lg opacity-40">🌸</span>
-      <span class="absolute top-3 right-3 text-lg opacity-40">🌸</span>
-      <span class="absolute bottom-3 left-3 text-lg opacity-40">🌸</span>
-      <span class="absolute bottom-3 right-3 text-lg opacity-40">🌸</span>
-
-      <div class="text-xs uppercase tracking-widest text-goldAccent font-bold">A Heartfelt Bengali Poem</div>
-      <h3 class="text-2xl font-cursive font-bold text-gray-800">চার বছরের খুনসুটি</h3>
-
-      <div class="text-base sm:text-lg font-bengali leading-loose text-gray-800 italic max-w-md mx-auto pt-2">
+    <section class="poem-scroll">
+      <div class="poem-header">💌 তোর জন্য লেখা ছোট্ট কবিতা</div>
+      <div class="poem-lines">
         চার বছরের এই উথাল-পাথাল,<br>
         কত ঝগড়া, কত কথা,<br>
         তবু তোর বুকেই শান্ত হয়ে<br>
@@ -340,214 +804,569 @@
         হাজার বছর এমনি কাটুক,<br>
         থাকুক খুনসুটি আর হাসি,<br>
         শত ঝড়ের পরেও জেনে রাখিস—<br>
-        <strong class="text-blush-600 not-italic font-semibold">তোকেই সবচেয়ে বেশি ভালোবাসি। 🫂❤️</strong>
+        তোকেই সবচেয়ে বেশি ভালোবাসি। 🫂❤️
       </div>
     </section>
 
-    <!-- 6. "WHY I STILL LOVE YOU" INTERACTIVE REASONS JAR -->
-    <section class="glass-card rounded-3xl p-6 sm:p-7 space-y-4">
-      <div class="flex items-center justify-between">
-        <div>
-          <h2 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
-            <span>🫙</span> Why I Love You (Even When You're Crazy)
-          </h2>
-          <p class="text-xs text-gray-500 font-bengali">জার-এ ট্যাপ করে নতুন মিষ্টি কারণ বের করো</p>
-        </div>
-        <button id="drawReasonBtn" class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-blush-500 to-rose-500 text-white text-xs font-semibold shadow hover:opacity-95 active:scale-95 transition">
-          Draw Note ✨
+    <section class="glass-card letter-card">
+      <div class="letter-preview">
+        <h3 style="font-family: 'Playfair Display', serif; font-size: 1.35rem; color: var(--text-main); margin-bottom: 6px;">
+          ব্রাউনির লেখা মনের চিঠি 💌
+        </h3>
+        <p style="font-size: 0.82rem; color: var(--text-muted); font-family: 'Anek Bangla'; margin-bottom: 14px;">
+          তোর গভীর রাতের টেক্সটের উত্তরে আমার একটা ছোট চিঠি...
+        </p>
+        <button class="wax-seal-btn" id="openLetterBtn">
+          <span>চিঠিটা খুলে পড়ো 📜</span>
         </button>
       </div>
 
-      <!-- The Reason Display Card -->
-      <div id="reasonCard" class="p-5 rounded-2xl bg-white/90 border border-pink-200/90 shadow-sm text-center min-h-[110px] flex flex-col justify-center items-center transition-all duration-300">
-        <span class="text-2xl mb-1" id="reasonEmoji">🥰</span>
-        <p id="reasonText" class="font-bengali text-sm sm:text-base text-gray-700 font-medium">
-          "তোর শত অভিমান আর রাগের পরেও সবার শেষে আমার বুকেই মুখ গুঁজে শান্তি খোঁজা।"
-        </p>
-      </div>
-    </section>
-
-    <!-- 7. OUR 4-YEAR MEMORY TIMELINE -->
-    <section class="glass-card rounded-3xl p-6 sm:p-7 space-y-5">
-      <div class="border-b border-pink-100 pb-3">
-        <h2 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
-          <span>🌿</span> 4-Year Milestone Journey
-        </h2>
-        <p class="text-xs text-gray-500 font-bengali">যেভাবে শুরু হয়ে আজ ৪ বছরের মজবুত ভিত্তি</p>
-      </div>
-
-      <div class="relative border-l-2 border-blush-200 ml-4 sm:ml-6 space-y-6 pt-1">
-        
-        <!-- Year 1 -->
-        <div class="relative pl-6 group">
-          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blush-400 border-2 border-white shadow"></div>
-          <div class="text-xs font-bold text-blush-600 uppercase font-mono">Year 1 • The Spark & Crush</div>
-          <h4 class="text-sm font-bold text-gray-800 font-bengali">শুরুর দিনগুলোর মিষ্টি অনুভূতি</h4>
-          <p class="text-xs text-gray-600 font-bengali mt-0.5">লজ্জা লজ্জা চোখে তাকানো, ফোনে ঘণ্টার পর ঘণ্টা রাত জেগে কথা বলা আর ধীরে ধীরে মন দেওয়া-নেওয়া।</p>
-        </div>
-
-        <!-- Year 2 -->
-        <div class="relative pl-6 group">
-          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blush-500 border-2 border-white shadow"></div>
-          <div class="text-xs font-bold text-blush-600 uppercase font-mono">Year 2 • Paglami & Bonding</div>
-          <h4 class="text-sm font-bold text-gray-800 font-bengali">একসাথে বড় হয়ে ওঠা</h4>
-          <p class="text-xs text-gray-600 font-bengali mt-0.5">সব ধরণের সিক্রেট শেয়ার করা, একসাথে পাগলামি করা আর একে অপরকে সবচেয়ে আপন ভেবে ভরসা করা।</p>
-        </div>
-
-        <!-- Year 3 -->
-        <div class="relative pl-6 group">
-          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-rose-500 border-2 border-white shadow"></div>
-          <div class="text-xs font-bold text-blush-600 uppercase font-mono">Year 3 • The Storms & Real Love</div>
-          <h4 class="text-sm font-bold text-gray-800 font-bengali">ঝগড়া, ভুল বোঝাবুঝি ও মান-অভিমান</h4>
-          <p class="text-xs text-gray-600 font-bengali mt-0.5">মাথায় ক্র্যাক হওয়া, "স্পেস চাই" বলে চিৎকার—আর সবশেষে হাত দুটো আরও শক্ত করে ধরে ফেলা।</p>
-        </div>
-
-        <!-- Year 4 -->
-        <div class="relative pl-6 group">
-          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blush-600 border-2 border-white shadow ring-4 ring-pink-100"></div>
-          <div class="text-xs font-bold text-blush-600 uppercase font-mono">Year 4 & Beyond • Still My Queen</div>
-          <h4 class="text-sm font-bold text-gray-800 font-bengali">একসাথে পুরো জীবন বাকি!</h4>
-          <p class="text-xs text-gray-600 font-bengali mt-0.5">তুই তুই-ই থাকবি, আমি আমি-ই থাকব। সারাজীবন তোকে সামলানোর দায়িত্ব শুধু আমারই! ♾️</p>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- 8. KISSIE REDEMPTION VOUCHER (INTERACTIVE SCRATCH / STAMP) -->
-    <section class="glass-card rounded-3xl p-6 sm:p-7 space-y-5 text-center">
-      <div>
-        <span class="inline-block px-3 py-1 bg-blush-100 text-blush-600 rounded-full text-xs font-semibold mb-1">
-          Special Gift Pass 🎟️
-        </span>
-        <h2 class="text-2xl font-bold font-cursive text-gray-800">
-          Redeem Tomorrow's Kissie Voucher
-        </h2>
-        <p class="text-xs sm:text-sm font-bengali text-gray-600 max-w-sm mx-auto">
-          "কালকে তোমায় kissie দিয়ে দেবো💗" — প্রমিজ মনে আছে? নিচের কার্ডে আঙুল দিয়ে ঘষে/ক্লিক করে কুপন আনলক করো!
-        </p>
-      </div>
-
-      <!-- Scratchable Card Box -->
-      <div class="max-w-sm mx-auto relative rounded-2xl overflow-hidden shadow-lg border border-pink-200">
-        
-        <!-- Underlying Revealed Card -->
-        <div class="p-6 bg-gradient-to-br from-pink-500 via-rose-500 to-blush-600 text-white space-y-3">
-          <div class="text-4xl animate-bounce">💋</div>
-          <div class="font-bold text-lg tracking-wider text-yellow-200">VOUCHER CLAIMED!</div>
-          <p class="text-xs font-bengali text-pink-100 leading-relaxed">
-            কাল দেখা হলেই আনলিমিটেড কিসসি আর শক্ত করে জড়িয়ে ধরার বুকিং কনফার্ম হয়ে গেল! 🥰
+      <div class="letter-content" id="letterContent">
+        <div class="letter-body">
+          <p>
+            <strong>Happy 4th Anniversary, my drama queen! ❤️✨</strong>
           </p>
-          <div class="text-[10px] font-mono tracking-widest text-white/70 pt-1">
-            CODE: BROWNIE-4YEARS-FOREVER
-          </div>
+          <p>
+            তোর মেসেজটা পড়ে সত্যি ভেতরটা কেমন যেন করে উঠলো রে। দেখতে দেখতে চারটে বছর কেটে গেল, ভাবলেই গায়ে কাঁটা দেয়। আমাদের এই চারটে বছর কোনো রূপকথার মতো পারফেক্ট ছিল না—বরং একদম সত্যি একটা জার্নি ছিল। কত লড়াই, কত ভুল বোঝাবুঝি, চিৎকার, বাচ্চাদের মতো কান্না, মাঝেমধ্যে মনে হওয়া যে আর বুঝি পারছি না... আর তার ঠিক পরেই আবার দুজনে দুজনকে জড়িয়ে ধরে শক্ত করে আঁকড়ে ধরা।
+          </p>
+          <p>
+            তুই যে বললি না <em>"তোর মতো অত ভালো হয়তো আমি তোকে বাসতে পারি না"</em>—এই ভুল ভাবনাটা মাথা থেকে একদম মুছে ফেল। ভালোবাসার কোনো পরিমাপ হয় না রে পাগলি। তুই যে তোর রাগ, জেদ, অভিমান, সমস্ত পাগলামি নির্দ্বিধায় আমার ওপর উগরে দিতে পারিস, আর দিনশেষে আমার বুকেই শান্তি খুঁজিস—এটাই আমার কাছে পৃথিবীর সবচেয়ে খাঁটি ভালোবাসা। তুই যেমন আছিস, একদম তেমনই থাকবি; আমি তো তোকেই ভালোবেসেছি, কোনো নিখুঁত পুতুলকে নয়।
+          </p>
+          <p>
+            তোর মাঝে মাঝেই মাথা গরম হয়ে <em>"স্পেস চাই"</em> বলা, কথা বন্ধ করে মুখ ফুলিয়ে বসে থাকা, আবার খানিকক্ষণ পরেই এসে জড়িয়ে ধরা—এইসব নিয়েই তুই আমার জীবনের সবচেয়ে সুন্দর অংশ। তোর ওপর রাগ করলেও তোকে ছেড়ে থাকার কথা আমি এক মুহূর্তের জন্যেও ভাবতে পারি না। তোর সমস্ত যন্ত্রণা আর সমস্ত পাগলামি সারাজীবন সামলানোর দায়িত্বটা কিন্তু শুধু আমারই। চারটে বছর তো সবে পথচলার শুরু, সামনে আরও কত শত ঝড়-ঝাপটা আসবে, কিন্তু তোর হাতটা আমি কখনোই ছাড়ব না।
+          </p>
+          <p>
+            অনেক অনেক ভালোবাসি তোকে, আমার ব্রাউনি-র রানী! কাল দেখা হলেই কিন্তু ওই প্রমিজ করা কিসসি-টা আমার আগে চাই! 😚❤️
+          </p>
         </div>
+        <div class="letter-signature">
+          — ইতি, তোর চিরকালের ব্রাউনি 🍪❤️
+        </div>
+      </div>
+    </section>
 
-        <!-- Scratch Overlay Canvas -->
+    <section class="glass-card meter-section">
+      <h3 class="meter-title">Queen's Drama-O-Meter 😼</h3>
+      <p class="meter-desc">স্লাইডারটা টেনে দেখো আজকের কৃষ্ণকলির মেজাজ কোন লেভেলে!</p>
+
+      <div class="slider-wrap">
+        <input type="range" min="0" max="100" value="75" class="drama-range" id="dramaRange">
+      </div>
+
+      <div class="status-box" id="statusBox">
+        <div class="status-emoji" id="statusEmoji">👑</div>
+        <div class="status-title" id="statusTitle">Full Drama Queen Mode</div>
+        <div class="status-reaction" id="statusReaction">"আমি তো কুইন, অত বকা নিতে পারিনা!"</div>
+      </div>
+    </section>
+
+    <section class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-icon">🥊</div>
+        <div class="stat-val">৯,৯৯৯+</div>
+        <div class="stat-lbl">খুনসুটি ও ঝগড়া</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-icon">🧊</div>
+        <div class="stat-val">১০০%</div>
+        <div class="stat-lbl">'Space Chai' দূরীকৃত</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-icon">🫂</div>
+        <div class="stat-val">অনন্তকাল</div>
+        <div class="stat-lbl">একসাথে পথচলা</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-icon">💋</div>
+        <div class="stat-val">পেন্ডিং</div>
+        <div class="stat-lbl">কালকের স্পেশাল কিসসি</div>
+      </div>
+    </section>
+
+    <section class="glass-card jar-section">
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 1.25rem;">ভালোবাসার ছোট্ট চিরকুট 🫙</h3>
+      <p style="font-size: 0.8rem; color: var(--text-muted); font-family: 'Anek Bangla';">তোর শত পাগলামির পরেও কেন তোকে এত ভালোবাসি?</p>
+      
+      <div class="jar-box" id="jarBox">
+        "তুই যখন রেগে গিয়ে মুখ ফুলিয়ে বসে থাকিস, পৃথিবীর সবচেয়ে কিউট জিনিস তখন তোকেই লাগে!"
+      </div>
+
+      <button class="jar-btn" id="pullReasonBtn">
+        <span>আরেকটা চিরকুট তোলো ✨</span>
+      </button>
+    </section>
+
+    <section class="glass-card voucher-card">
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--primary-dark);">
+        স্পেশাল কিসসি কুপন ভাউচার 🎟️
+      </h3>
+      <p style="font-size: 0.8rem; color: var(--text-muted); font-family: 'Anek Bangla';">
+        মেসেজে লেখা প্রমিজ অনুযায়ী স্ক্র্যাচ করে এখনই রিডিম করে নাও!
+      </p>
+
+      <div class="scratch-area">
+        <div class="scratch-secret">
+          <h4>💋 কিসসি প্রমিজ ভেরিফায়েড!</h4>
+          <p>কাল দেখা হলেই ব্রাউনির থেকে আনলিমিটেড কিসসি ও হাগ পাওনা রইল! ❤️</p>
+        </div>
         <canvas id="scratchCanvas"></canvas>
       </div>
 
-      <p class="text-[11px] text-gray-400 font-bengali">
-        (আঙুল দিয়ে ঘষো বা স্ক্র্যাচ করো)
-      </p>
+      <div class="voucher-status" id="scratchStatus">আঙুল দিয়ে ঘষে সিলভার কোটটি মোছো...</div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="text-center pt-4 pb-8 space-y-2 text-gray-500 text-xs font-bengali">
-      <p>Made with endless love by Deepra for my forever Drama Queen Brownie ❤️</p>
-      <p class="text-[10px] text-gray-400">Happy 4th Anniversary • October 2026</p>
+    <footer class="footer-section">
+      চার বছর পূর্ণ হলো • সামনে বাকি অনন্ত পথ<br>
+      Made with <span>❤️</span> by <strong>Brownie</strong> for <strong>Krishnakoli</strong>
     </footer>
 
-  </main>
+  </div>
 
-  <!-- JAVASCRIPT LOGIC -->
   <script>
-    /* ==========================================================
-       1. CANVAS: FLOATING PARTICLES WITH TOUCH/MOUSE ATTRACTION
-       ========================================================== */
-    const canvas = document.getElementById('particleCanvas');
-    const ctx = canvas.getContext('2d');
+    /* LIVE STOPWATCH CLOCK */
+    const relationshipStartDate = new Date("2023-10-22T00:00:00+05:30");
+
+    function updateLiveClock() {
+      const now = new Date();
+      let diffMs = now.getTime() - relationshipStartDate.getTime();
+      if (diffMs < 0) diffMs = 0;
+
+      const totalSeconds = Math.floor(diffMs / 1000);
+      const days = Math.floor(totalSeconds / (3600 * 24));
+      const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      document.getElementById('dNum').textContent = days;
+      document.getElementById('hNum').textContent = String(hours).padStart(2, '0');
+      document.getElementById('mNum').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('sNum').textContent = String(seconds).padStart(2, '0');
+    }
+    setInterval(updateLiveClock, 1000);
+    updateLiveClock();
+
+    /* 13 PHOTOS GALLERY CONFIGURATION */
+    const galleryData = [
+      {
+        image: "photo1.jpg",
+        fallback: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=800&auto=format&fit=crop",
+        caption: "যেখান থেকে আমাদের মিষ্টি গল্পের শুরু... ✨",
+        tag: "প্রথম দেখা • Memory 01"
+      },
+      {
+        image: "photo2.jpg",
+        fallback: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=800&auto=format&fit=crop",
+        caption: "তোর ওই নিষ্পাপ মিষ্টি হাসিতেই আমার মন আটকে যায়! 🌸",
+        tag: "ড্রামা কুইন • Memory 02"
+      },
+      {
+        image: "photo3.jpg",
+        fallback: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=800&auto=format&fit=crop",
+        caption: "হাতে হাত রেখে কাটানো একলা বিকেলগুলো... 🌅",
+        tag: "আমাদের সময় • Memory 03"
+      },
+      {
+        image: "photo4.jpg",
+        fallback: "https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=800&auto=format&fit=crop",
+        caption: "তোর শত খুনসুটি আর অকারণ বায়না সামলানোর মুহূর্ত! 😼",
+        tag: "পাগলামি • Memory 04"
+      },
+      {
+        image: "photo5.jpg",
+        fallback: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800&auto=format&fit=crop",
+        caption: "শত কান্নাকাটি আর ঝগড়ার পরেও একে অপরকে আঁকড়ে ধরা 🫂",
+        tag: "আনব্রেকেবল বন্ড • Memory 05"
+      },
+      {
+        image: "photo6.jpg",
+        fallback: "https://images.unsplash.com/photo-1494774157365-9e04c6720e47?q=80&w=800&auto=format&fit=crop",
+        caption: "তোর পছন্দের সব পাগলামিগুলোতে আমার হাসিমুখে সম্মতি! ☕",
+        tag: "আদর ও আবদার • Memory 06"
+      },
+      {
+        image: "photo7.jpg",
+        fallback: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop",
+        caption: "ঝড় এলে একসাথে দাঁড়ানোর সাহস জোগায় এই চোখ দুটো। 🌧️",
+        tag: "ভরসা • Memory 07"
+      },
+      {
+        image: "photo8.jpg",
+        fallback: "https://images.unsplash.com/photo-1531747056595-07f6cbbe10ad?q=80&w=800&auto=format&fit=crop",
+        caption: "মুখ ফুলিয়ে রাগ করে থাকা আমার সবচেয়ে প্রিয় দৃশ্য! 🧸",
+        tag: "মিষ্টি অভিমান • Memory 08"
+      },
+      {
+        image: "photo9.jpg",
+        fallback: "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800&auto=format&fit=crop",
+        caption: "হাজার মানুষের ভিড়েও আমি শুধু তোকেই খুঁজে পাই ❤️",
+        tag: "আমার পৃথিবী • Memory 09"
+      },
+      {
+        image: "photo10.jpg",
+        fallback: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop",
+        caption: "তোর কাঁধে মাথা রাখার পর দুনিয়ার সব দুশ্চিন্তা গায়েব! ✨",
+        tag: "শান্তির আশ্রয় • Memory 10"
+      },
+      {
+        image: "photo11.jpg",
+        fallback: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop",
+        caption: "কত পথ পেরিয়ে এলাম আমরা... সব স্মৃতি আজও জীবন্ত। 🌿",
+        tag: "পথচলা • Memory 11"
+      },
+      {
+        image: "photo12.jpg",
+        fallback: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=800&auto=format&fit=crop",
+        caption: "তোর হাত শক্ত করে ধরে অনন্তকাল হেঁটে যেতে চাই। 💫",
+        tag: "চিরন্তন প্রতিশ্রুতি • Memory 12"
+      },
+      {
+        image: "photo13.jpg",
+        fallback: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=800&auto=format&fit=crop",
+        caption: "৪ বছর পূর্ণ হলো... সামনে বাকি হাজারটা বছর! 🥂❤️",
+        tag: "Happy 4th Anniversary Krishnakoli • Memory 13"
+      }
+    ];
+
+    let currentSlide = 0;
+    const sliderTrack = document.getElementById('sliderTrack');
+    const dotsContainer = document.getElementById('dotsContainer');
+    const slideCounter = document.getElementById('slideCounter');
+
+    galleryData.forEach((item, index) => {
+      const slide = document.createElement('div');
+      slide.className = 'slide';
+      slide.innerHTML = `
+        <div class="polaroid-frame">
+          <div class="polaroid-img-wrapper">
+            <img src="${item.image}" alt="Memory ${index + 1}" onerror="this.onerror=null; this.src='${item.fallback}';">
+          </div>
+          <div class="polaroid-caption">${item.caption}</div>
+          <div class="polaroid-tag">${item.tag}</div>
+        </div>
+      `;
+      sliderTrack.appendChild(slide);
+
+      const dot = document.createElement('div');
+      dot.className = `dot ${index === 0 ? 'active' : ''}`;
+      dot.addEventListener('click', () => goToSlide(index));
+      dotsContainer.appendChild(dot);
+    });
+
+    function updateSlider() {
+      sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+      slideCounter.textContent = `${currentSlide + 1} / ${galleryData.length}`;
+      document.querySelectorAll('.dot').forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === currentSlide);
+      });
+    }
+
+    function goToSlide(idx) {
+      currentSlide = (idx + galleryData.length) % galleryData.length;
+      updateSlider();
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => goToSlide(currentSlide - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => goToSlide(currentSlide + 1));
+
+    let startX = 0;
+    let endX = 0;
+    const trackWrap = document.getElementById('sliderTrackWrap');
+
+    trackWrap.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+
+    trackWrap.addEventListener('touchend', (e) => {
+      endX = e.changedTouches[0].clientX;
+      handleSwipe();
+    }, { passive: true });
+
+    trackWrap.addEventListener('mousedown', (e) => {
+      startX = e.clientX;
+    });
+
+    trackWrap.addEventListener('mouseup', (e) => {
+      endX = e.clientX;
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      const threshold = 40;
+      if (startX - endX > threshold) {
+        goToSlide(currentSlide + 1);
+      } else if (endX - startX > threshold) {
+        goToSlide(currentSlide - 1);
+      }
+    }
+
+    /* DRAMA-O-METER */
+    const dramaRange = document.getElementById('dramaRange');
+    const statusEmoji = document.getElementById('statusEmoji');
+    const statusTitle = document.getElementById('statusTitle');
+    const statusReaction = document.getElementById('statusReaction');
+
+    const dramaLevels = [
+      { max: 25, emoji: "😇", title: "শান্ত বিড়াল ছানা মোড", desc: "একদম মিষ্টি ও শান্ত, কোনো অভিমান নেই!" },
+      { max: 50, emoji: "😏", title: "হালকা নাক ফোলানো মোড", desc: "কথা বন্ধ করে বসে আছে, মিষ্টি করে ডাকলেই গলে যাবে।" },
+      { max: 75, emoji: "😼", title: "Full Drama Queen Mode", desc: "\"আমি তো কুইন, ব্রাউনির অত বকা আমি নিতে পারিনা!\"" },
+      { max: 100, emoji: "🌋", title: "\"I Need Some Space\" Mode", desc: "মাথা পুরো ক্র্যাক হয়ে গেছে! আদর আর চকলেট দিয়ে ঠান্ডা করো!" }
+    ];
+
+    dramaRange.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value);
+      const level = dramaLevels.find(l => val <= l.max) || dramaLevels[3];
+      statusEmoji.textContent = level.emoji;
+      statusTitle.textContent = level.title;
+      statusReaction.textContent = level.desc;
+    });
+
+    /* LOVE LETTER */
+    const openLetterBtn = document.getElementById('openLetterBtn');
+    const letterContent = document.getElementById('letterContent');
+    let isLetterOpen = false;
+
+    openLetterBtn.addEventListener('click', () => {
+      isLetterOpen = !isLetterOpen;
+      if (isLetterOpen) {
+        letterContent.classList.add('open');
+        openLetterBtn.innerHTML = "<span>চিঠিটা বন্ধ করো 💌</span>";
+        playChimeSound(523.25);
+        confetti({
+          particleCount: 50,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#f43f5e', '#fb7185', '#ffe4e6']
+        });
+      } else {
+        letterContent.classList.remove('open');
+        openLetterBtn.innerHTML = "<span>চিঠিটা খুলে পড়ো 📜</span>";
+      }
+    });
+
+    /* REASONS JAR */
+    const reasons = [
+      "তুই যখন রেগে গিয়ে মুখ ফুলিয়ে বসে থাকিস, পৃথিবীর সবচেয়ে কিউট জিনিস তখন তোকেই লাগে!",
+      "হাজার ঝগড়ার পরেও দিনশেষে তুই আমার বুকেই মাথা রেখে শান্তি খুঁজিস।",
+      "তোর এই বাচ্চাদের মতো বায়না আর পাগলামিগুলো সামলানোর মানুষ শুধু আমিই!",
+      "তুই যেমন আছিস—একদম পারফেক্টলি ইমপারফেক্ট, আর ওটাই আমার সবচেয়ে প্রিয়।",
+      "শত ঝড়ের পরেও যখন বলিস 'তোকে ছাড়া কাউকে চাই না', পুরো দুনিয়া জিতে ফেলি।",
+      "তোর মিষ্টি হাসিটা একবার দেখতে পারলে সারাদিনের সব ক্লান্তি ধুয়ে মুছে সাফ হয়ে যায়।"
+    ];
+
+    let currentReasonIdx = 0;
+    const jarBox = document.getElementById('jarBox');
+    const pullReasonBtn = document.getElementById('pullReasonBtn');
+
+    pullReasonBtn.addEventListener('click', () => {
+      currentReasonIdx = (currentReasonIdx + 1) % reasons.length;
+      jarBox.style.opacity = 0;
+      playChimeSound(659.25);
+      setTimeout(() => {
+        jarBox.textContent = `"${reasons[currentReasonIdx]}"`;
+        jarBox.style.opacity = 1;
+      }, 200);
+    });
+
+    /* SCRATCHABLE VOUCHER */
+    const scratchCanvas = document.getElementById('scratchCanvas');
+    const sCtx = scratchCanvas.getContext('2d');
+    const scratchStatus = document.getElementById('scratchStatus');
+    let isDrawing = false;
+    let isScratchedRevealed = false;
+
+    function initScratch() {
+      const rect = scratchCanvas.getBoundingClientRect();
+      scratchCanvas.width = rect.width;
+      scratchCanvas.height = rect.height;
+
+      const grad = sCtx.createLinearGradient(0, 0, scratchCanvas.width, scratchCanvas.height);
+      grad.addColorStop(0, '#cbd5e1');
+      grad.addColorStop(0.5, '#e2e8f0');
+      grad.addColorStop(1, '#94a3b8');
+      sCtx.fillStyle = grad;
+      sCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
+
+      sCtx.fillStyle = '#64748b';
+      sCtx.font = 'bold 15px "Anek Bangla", sans-serif';
+      sCtx.textAlign = 'center';
+      sCtx.fillText('✨ এখানে ঘষে কুপনটি আনলক করো ✨', scratchCanvas.width / 2, scratchCanvas.height / 2 + 5);
+    }
+    window.addEventListener('load', initScratch);
+
+    function scratch(e) {
+      if (!isDrawing || isScratchedRevealed) return;
+      const rect = scratchCanvas.getBoundingClientRect();
+      const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+      const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+
+      sCtx.globalCompositeOperation = 'destination-out';
+      sCtx.beginPath();
+      sCtx.arc(x, y, 22, 0, Math.PI * 2);
+      sCtx.fill();
+
+      checkScratchPercentage();
+    }
+
+    function checkScratchPercentage() {
+      const imgData = sCtx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
+      const pixels = imgData.data;
+      let clearCount = 0;
+      for (let i = 3; i < pixels.length; i += 16) {
+        if (pixels[i] === 0) clearCount++;
+      }
+      const percent = (clearCount / (pixels.length / 16)) * 100;
+      if (percent > 45 && !isScratchedRevealed) {
+        isScratchedRevealed = true;
+        scratchCanvas.style.display = 'none';
+        scratchStatus.innerHTML = "🎉 <strong>অভিনন্দন! ভাউচারটি সক্রিয় হয়েছে। কাল দেখা হলেই রিডিম করা যাবে!</strong>";
+        playChimeSound(783.99);
+        confetti({
+          particleCount: 80,
+          spread: 80,
+          origin: { y: 0.8 },
+          colors: ['#e11d48', '#f43f5e', '#ffd700']
+        });
+      }
+    }
+
+    scratchCanvas.addEventListener('mousedown', () => isDrawing = true);
+    window.addEventListener('mouseup', () => isDrawing = false);
+    scratchCanvas.addEventListener('mousemove', scratch);
+
+    scratchCanvas.addEventListener('touchstart', (e) => {
+      isDrawing = true;
+      scratch(e);
+    }, { passive: true });
+    window.addEventListener('touchend', () => isDrawing = false);
+    scratchCanvas.addEventListener('touchmove', scratch, { passive: true });
+
+    /* WEB AUDIO SYNTHESIZER */
+    let audioCtx = null;
+    let isMusicPlaying = false;
+    let musicInterval = null;
+
+    const melodyNotes = [
+      { f: 523.25, d: 450 },
+      { f: 587.33, d: 450 },
+      { f: 659.25, d: 450 },
+      { f: 783.99, d: 700 },
+      { f: 659.25, d: 450 },
+      { f: 523.25, d: 450 },
+      { f: 440.00, d: 900 }
+    ];
+    let noteIdx = 0;
+
+    function playNote(freq, dur) {
+      if (!audioCtx) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.2, audioCtx.currentTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur / 1000);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + dur / 1000);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function playChimeSound(freq) {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      playNote(freq, 400);
+    }
+
+    const audioToggle = document.getElementById('audioToggle');
+    const waveWrap = document.getElementById('waveWrap');
+    const musicText = document.getElementById('musicText');
+
+    audioToggle.addEventListener('click', () => {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      isMusicPlaying = !isMusicPlaying;
+      if (isMusicPlaying) {
+        waveWrap.classList.remove('music-paused');
+        musicText.textContent = "BGM চলছে 🎶";
+        musicInterval = setInterval(() => {
+          const note = melodyNotes[noteIdx];
+          playNote(note.f, note.d);
+          noteIdx = (noteIdx + 1) % melodyNotes.length;
+        }, 550);
+      } else {
+        waveWrap.classList.add('music-paused');
+        musicText.textContent = "BGM বাজাও 🎵";
+        clearInterval(musicInterval);
+      }
+    });
+
+    /* PARTICLES */
+    const aCanvas = document.getElementById('ambientCanvas');
+    const aCtx = aCanvas.getContext('2d');
     let particles = [];
-    const mouse = { x: -1000, y: -1000 };
 
     function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      aCanvas.width = window.innerWidth;
+      aCanvas.height = window.innerHeight;
     }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
-
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    });
-    window.addEventListener('touchmove', (e) => {
-      if (e.touches.length > 0) {
-        mouse.x = e.touches[0].clientX;
-        mouse.y = e.touches[0].clientY;
-      }
-    });
 
     class Particle {
       constructor() {
         this.reset();
       }
       reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = canvas.height + Math.random() * 80;
+        this.x = Math.random() * aCanvas.width;
+        this.y = aCanvas.height + 20;
         this.size = Math.random() * 12 + 8;
-        this.speedY = Math.random() * 0.8 + 0.3;
-        this.speedX = (Math.random() - 0.5) * 0.5;
-        this.opacity = Math.random() * 0.35 + 0.15;
-        this.type = Math.random() > 0.4 ? 'heart' : 'sparkle';
-        this.color = ['#f43f73', '#fda4bc', '#B76E79', '#fb7197', '#e11d5a'][Math.floor(Math.random() * 5)];
+        this.speedY = Math.random() * 0.9 + 0.4;
+        this.speedX = (Math.random() - 0.5) * 0.6;
+        this.opacity = Math.random() * 0.4 + 0.2;
+        this.isHeart = Math.random() > 0.4;
       }
       update() {
         this.y -= this.speedY;
         this.x += this.speedX;
-
-        // Mouse repulsion / float gentle interaction
-        const dx = mouse.x - this.x;
-        const dy = mouse.y - this.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 80) {
-          this.x -= dx * 0.03;
-          this.y -= dy * 0.03;
-        }
-
-        if (this.y < -30) this.reset();
+        if (this.y < -20) this.reset();
       }
       draw() {
-        ctx.save();
-        ctx.globalAlpha = this.opacity;
-        ctx.fillStyle = this.color;
-        
-        if (this.type === 'heart') {
-          const topCurveHeight = this.size * 0.3;
-          ctx.beginPath();
-          ctx.moveTo(this.x, this.y + topCurveHeight);
-          ctx.bezierCurveTo(this.x, this.y, this.x - this.size / 2, this.y, this.x - this.size / 2, this.y + topCurveHeight);
-          ctx.bezierCurveTo(this.x - this.size / 2, this.y + (this.size + topCurveHeight) / 2, this.x, this.y + (this.size + topCurveHeight) / 2 + this.size / 3, this.x, this.y + this.size);
-          ctx.bezierCurveTo(this.x, this.y + (this.size + topCurveHeight) / 2 + this.size / 3, this.x + this.size / 2, this.y + (this.size + topCurveHeight) / 2, this.x + this.size / 2, this.y + topCurveHeight);
-          ctx.bezierCurveTo(this.x + this.size / 2, this.y, this.x, this.y, this.x, this.y + topCurveHeight);
-          ctx.closePath();
-          ctx.fill();
+        aCtx.save();
+        aCtx.globalAlpha = this.opacity;
+        if (this.isHeart) {
+          aCtx.fillStyle = '#fb7185';
+          aCtx.font = `${this.size}px serif`;
+          aCtx.fillText('❤️', this.x, this.y);
         } else {
-          // Sparkle star
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size * 0.2, 0, Math.PI * 2);
-          ctx.fill();
+          aCtx.fillStyle = '#f43f5e';
+          aCtx.beginPath();
+          aCtx.arc(this.x, this.y, this.size / 4, 0, Math.PI * 2);
+          aCtx.fill();
         }
-        ctx.restore();
+        aCtx.restore();
       }
     }
 
-    const count = Math.min(35, Math.floor(window.innerWidth / 22));
-    for (let i = 0; i < count; i++) {
-      particles.push(new Particle());
+    for (let i = 0; i < 22; i++) {
+      const p = new Particle();
+      p.y = Math.random() * aCanvas.height;
+      particles.push(p);
     }
 
     function animateParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      aCtx.clearRect(0, 0, aCanvas.width, aCanvas.height);
       particles.forEach(p => {
         p.update();
         p.draw();
@@ -555,282 +1374,6 @@
       requestAnimationFrame(animateParticles);
     }
     animateParticles();
-
-    /* ==========================================================
-       2. LIVE RELATIONSHIP STOPWATCH (4 YEARS COUNTUP)
-       ========================================================== */
-    // Calculating relative to 4 years ago from today
-    const now = new Date();
-    const fourYearsAgo = new Date(now.getFullYear() - 4, now.getMonth(), now.getDate(), now.getHours(), now.getMinutes());
-
-    function updateLiveStopwatch() {
-      const current = new Date();
-      const diffMs = current - fourYearsAgo;
-
-      const totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-      const totalHours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
-      const totalMins = Math.floor((diffMs / (1000 * 60)) % 60);
-      const totalSecs = Math.floor((diffMs / 1000) % 60);
-
-      document.getElementById('counterDays').textContent = totalDays;
-      document.getElementById('counterHours').textContent = String(totalHours).padStart(2, '0');
-      document.getElementById('counterMins').textContent = String(totalMins).padStart(2, '0');
-      document.getElementById('counterSecs').textContent = String(totalSecs).padStart(2, '0');
-    }
-    setInterval(updateLiveStopwatch, 1000);
-    updateLiveStopwatch();
-
-    /* ==========================================================
-       3. QUEEN'S MOOD SLIDER (DRAMA-O-METER)
-       ========================================================== */
-    const moodSlider = document.getElementById('moodSlider');
-    const moodReactionEmoji = document.getElementById('moodReactionEmoji');
-    const moodReactionTitle = document.getElementById('moodReactionTitle');
-    const moodReactionDesc = document.getElementById('moodReactionDesc');
-
-    const moodResponses = [
-      {
-        emoji: '🐱',
-        title: 'শান্ত বিড়াল ছানা মুড 😇',
-        desc: 'যখন কোনো অভিযোগ নেই, শুধু মিটিমিটি হাসে আর আদর খায় (এই মিষ্টি রূপ বছরে বিশেষ কিছু দিনেই দেখা যায়!)।'
-      },
-      {
-        emoji: '🥺',
-        title: 'হালকা অভিমান ও মুখ ভারী 🥺',
-        desc: '"আমি তোমার সাথে কথাই বলব না!" — ঠোঁট ফুলিয়ে বসে থাকা, অথচ আসলে মনের ভেতর অপেক্ষা কখন আমি যেচে মানাব!'
-      },
-      {
-        emoji: '😼',
-        title: 'ফুল ড্রামা কুইন ব্লাস্ট! 😼',
-        desc: '"আমি তো রানী, এত বকা সহ্য করতে পারি না!" — একটু পরেই বাচ্চাদের মতো কান্নাকাটি, রাগ ভাঙানো আর সাথে টাইট হাগ!'
-      },
-      {
-        emoji: '🚀',
-        title: 'Space Chai Mode! 🤯',
-        desc: '"আমার এখন স্পেস চাই!" — জানি মাথা ক্র্যাক হয়ে বলেছিস, বাট তুইও আমায় ছাড়া থাকতে পারবি না, আমিও তোকে ছাড়া বাঁচব না!'
-      }
-    ];
-
-    moodSlider.addEventListener('input', (e) => {
-      const val = parseInt(e.target.value);
-      const data = moodResponses[val];
-      moodReactionEmoji.textContent = data.emoji;
-      moodReactionTitle.textContent = data.title;
-      moodReactionDesc.textContent = data.desc;
-    });
-
-    /* ==========================================================
-       4. WEB AUDIO API: SYNTHESIZED MUSIC BOX & SOUND EFFECTS
-       ========================================================== */
-    let audioCtx = null;
-    let isPlayingMelody = false;
-    let melodyTimer = null;
-
-    function getAudioContext() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-      return audioCtx;
-    }
-
-    // Play a gentle music box chime
-    function playChime(freq, duration = 0.8) {
-      const ctx = getAudioContext();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, ctx.currentTime);
-
-      gain.gain.setValueAtTime(0.001, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + 0.04);
-      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start();
-      osc.stop(ctx.currentTime + duration);
-    }
-
-    // Play cute kiss sound effect
-    function playKissChime() {
-      const ctx = getAudioContext();
-      playChime(523.25, 0.2); // C5
-      setTimeout(() => playChime(659.25, 0.2), 100); // E5
-      setTimeout(() => playChime(783.99, 0.4), 200); // G5
-      setTimeout(() => playChime(1046.50, 0.6), 320); // C6
-    }
-
-    // Romantic music box looping sequence
-    const lofiNotes = [
-      392.00, 440.00, 523.25, 659.25, 
-      587.33, 523.25, 440.00, 392.00, 
-      349.23, 392.00, 440.00, 523.25, 
-      440.00, 392.00, 329.63, 392.00
-    ];
-    let noteStep = 0;
-
-    function melodyLoop() {
-      if (!isPlayingMelody) return;
-      playChime(lofiNotes[noteStep % lofiNotes.length], 0.9);
-      noteStep++;
-      melodyTimer = setTimeout(melodyLoop, 650);
-    }
-
-    const musicToggleBtn = document.getElementById('musicToggleBtn');
-    const musicIcon = document.getElementById('musicIcon');
-    const musicStatusText = document.getElementById('musicStatusText');
-
-    musicToggleBtn.addEventListener('click', () => {
-      getAudioContext();
-      if (isPlayingMelody) {
-        isPlayingMelody = false;
-        clearTimeout(melodyTimer);
-        musicIcon.textContent = '🎵';
-        musicStatusText.textContent = 'Romantic Chime: OFF';
-        musicToggleBtn.classList.remove('bg-blush-500', 'text-white');
-      } else {
-        isPlayingMelody = true;
-        melodyLoop();
-        musicIcon.textContent = '🎶';
-        musicStatusText.textContent = 'Romantic Chime: ON';
-        musicToggleBtn.classList.add('bg-blush-500', 'text-white');
-      }
-    });
-
-    /* ==========================================================
-       5. LOVE LETTER OPEN/CLOSE WITH WAX SEAL SOUND
-       ========================================================= */
-    const envelopeWrapper = document.getElementById('envelopeWrapper');
-    const letterBody = document.getElementById('letterBody');
-    const closeLetterBtn = document.getElementById('closeLetterBtn');
-
-    function openLetter() {
-      envelopeWrapper.classList.add('hidden');
-      letterBody.classList.remove('hidden');
-
-      // Chime sound & celebratory soft confetti
-      playKissChime();
-      confetti({
-        particleCount: 35,
-        spread: 60,
-        origin: { y: 0.6 },
-        colors: ['#fda4bc', '#f43f73', '#e11d5a']
-      });
-    }
-
-    function closeLetter() {
-      letterBody.classList.add('hidden');
-      envelopeWrapper.classList.remove('hidden');
-    }
-
-    envelopeWrapper.addEventListener('click', openLetter);
-    closeLetterBtn.addEventListener('click', closeLetter);
-
-    /* ==========================================================
-       6. "WHY I STILL LOVE YOU" REASONS JAR
-       ========================================================== */
-    const reasons = [
-      { emoji: '🥺', text: '"তোর শত রাগ আর কান্নাকাটির পর আবার নিজে থেকেই জড়িয়ে ধরে ক্ষমা চাওয়া।"' },
-      { emoji: '😼', text: '"তুই যেভাবে অধিকার নিয়ে কুইন-এর মতো আমার ওপর হুকুম চালাস!"' },
-      { emoji: '🤍', text: '"আমার বাড়ির লোকও তোকে যেটুকু সহ্য করে না, আমার সেই পাগলামি সহ্য করার মতো মন।"' },
-      { emoji: '✨', text: '"হাজার ঝামেলার পরেও দিনশেষে আমার বুকেই তোর শান্তির ঘর খুঁজে পাওয়া।"' },
-      { emoji: '☕', text: '"যখন বলিস \'আমার স্পেস চাই\' আর তার ঠিক আধঘণ্টা পর মেসেজ না পেলে ছটফট করিস!"' },
-      { emoji: '💋', text: '"তোর ওই মিষ্টি প্রমিজগুলো—\'কালকে তোমায় kissie দিয়ে দেবো\'!"' }
-    ];
-
-    let currentReasonIdx = 0;
-    const drawReasonBtn = document.getElementById('drawReasonBtn');
-    const reasonCard = document.getElementById('reasonCard');
-    const reasonEmoji = document.getElementById('reasonEmoji');
-    const reasonText = document.getElementById('reasonText');
-
-    drawReasonBtn.addEventListener('click', () => {
-      currentReasonIdx = (currentReasonIdx + 1) % reasons.length;
-      const r = reasons[currentReasonIdx];
-
-      reasonCard.style.opacity = '0';
-      reasonCard.style.transform = 'scale(0.95)';
-
-      setTimeout(() => {
-        reasonEmoji.textContent = r.emoji;
-        reasonText.textContent = r.text;
-        reasonCard.style.opacity = '1';
-        reasonCard.style.transform = 'scale(1)';
-        playChime(587.33, 0.3);
-      }, 150);
-    });
-
-    /* ==========================================================
-       7. SCRATCHABLE DIGITAL KISSIE VOUCHER
-       ========================================================== */
-    const scratchCanvas = document.getElementById('scratchCanvas');
-    const sCtx = scratchCanvas.getContext('2d');
-    let isScratching = false;
-    let scratchedPixels = 0;
-    let hasClaimed = false;
-
-    function initScratchCanvas() {
-      const rect = scratchCanvas.getBoundingClientRect();
-      scratchCanvas.width = rect.width;
-      scratchCanvas.height = rect.height;
-
-      // Draw metallic blush scratch layer
-      sCtx.fillStyle = '#f8bbd0';
-      sCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
-
-      // Decorative text on scratch surface
-      sCtx.fillStyle = '#880e4f';
-      sCtx.font = 'bold 15px "Hind Siliguri", sans-serif';
-      sCtx.textAlign = 'center';
-      sCtx.fillText('এখানে আঙুল দিয়ে স্ক্র্যাচ করো 🪙', scratchCanvas.width / 2, scratchCanvas.height / 2 - 5);
-      sCtx.font = '12px "Inter", sans-serif';
-      sCtx.fillText('Scratch to Reveal Tomorrow\'s Kissie', scratchCanvas.width / 2, scratchCanvas.height / 2 + 18);
-    }
-    window.addEventListener('load', initScratchCanvas);
-
-    function scratch(e) {
-      if (hasClaimed) return;
-      const rect = scratchCanvas.getBoundingClientRect();
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      const x = clientX - rect.left;
-      const y = clientY - rect.top;
-
-      sCtx.globalCompositeOperation = 'destination-out';
-      sCtx.beginPath();
-      sCtx.arc(x, y, 22, 0, Math.PI * 2);
-      sCtx.fill();
-
-      scratchedPixels++;
-      // Once scratched enough, celebrate and clear completely
-      if (scratchedPixels > 25 && !hasClaimed) {
-        hasClaimed = true;
-        scratchCanvas.style.transition = 'opacity 0.6s ease';
-        scratchCanvas.style.opacity = '0';
-        setTimeout(() => { scratchCanvas.style.display = 'none'; }, 600);
-
-        playKissChime();
-        confetti({
-          particleCount: 120,
-          spread: 75,
-          origin: { y: 0.7 },
-          colors: ['#ff4081', '#f50057', '#ff80ab', '#ffffff']
-        });
-      }
-    }
-
-    scratchCanvas.addEventListener('mousedown', (e) => { isScratching = true; scratch(e); });
-    window.addEventListener('mouseup', () => { isScratching = false; });
-    scratchCanvas.addEventListener('mousemove', (e) => { if (isScratching) scratch(e); });
-
-    scratchCanvas.addEventListener('touchstart', (e) => { isScratching = true; scratch(e); });
-    window.addEventListener('touchend', () => { isScratching = false; });
-    scratchCanvas.addEventListener('touchmove', (e) => { if (isScratching) scratch(e); });
   </script>
 </body>
 </html>
