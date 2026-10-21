@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy 4th Anniversary, My Drama Queen! ❤️✨</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Hind Siliguri (Bengali), Dancing Script, Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            bengali: ['"Hind Siliguri"', 'sans-serif'],
+            cursive: ['"Dancing Script"', 'cursive'],
+            sans: ['"Inter"', 'sans-serif'],
+          },
+          colors: {
+            blush: {
+              50: '#fff5f7',
+              100: '#ffe4ea',
+              200: '#fecdd8',
+              300: '#fda4bc',
+              400: '#fb7197',
+              500: '#f43f73',
+              600: '#e11d5a',
+              700: '#be1245',
+            },
+            parchment: '#fcf8f2',
+            goldAccent: '#dfa376',
+            wine: '#4a1525',
+          },
+          animation: {
+            'float-slow': 'floatSlow 4s ease-in-out infinite',
+            'wax-glow': 'waxGlow 2.5s infinite alternate',
+            'shimmer': 'shimmer 2s infinite linear',
+          },
+          keyframes: {
+            floatSlow: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-8px)' },
+            },
+            waxGlow: {
+              '0%': { filter: 'drop-shadow(0 0 4px rgba(225, 29, 90, 0.4))' },
+              '100%': { filter: 'drop-shadow(0 0 14px rgba(225, 29, 90, 0.8))' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Glassmorphism Cards */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 12px 35px rgba(225, 29, 90, 0.08);
+    }
+    
+    .glass-card-hover {
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(225, 29, 90, 0.12);
+    }
+
+    /* Interactive Background Canvas */
+    #particleCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Scroll aesthetic */
+    .parchment-scroll {
+      background: linear-gradient(135deg, #fefbf6 0%, #faede1 100%);
+      border: 2px dashed #e4bca2;
+      box-shadow: inset 0 0 20px rgba(183, 110, 121, 0.1), 0 10px 25px rgba(0,0,0,0.05);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #fda4bc;
+      border-radius: 9999px;
+    }
+
+    /* Scratch/Stamp Overlay Canvas */
+    #scratchCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+      border-radius: 1rem;
+      touch-action: none;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-[#fff1f4] via-[#fff5f7] to-[#ffe9ee] text-gray-800 font-sans min-h-screen relative overflow-x-hidden selection:bg-blush-200">
+
+  <!-- Interactive Floating Background Canvas -->
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- Sticky Floating Music & Controls Header -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-white/70 border-b border-pink-100/80 px-4 py-2.5">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-xl animate-bounce">👑</span>
+        <span class="text-xs sm:text-sm font-bold tracking-wide text-blush-600 font-cursive text-lg sm:text-xl">
+          Deepra & Brownie
+        </span>
+        <span class="hidden sm:inline-block px-2 py-0.5 rounded-full bg-blush-100 text-[10px] text-blush-700 font-semibold uppercase tracking-wider">
+          4th Anniversary
+        </span>
+      </div>
+
+      <!-- Synthesized Lo-Fi Music Box Player Button -->
+      <button id="musicToggleBtn" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-pink-200 text-xs font-medium text-blush-600 shadow-sm hover:shadow-md hover:bg-blush-50 transition active:scale-95" aria-label="Toggle romantic music">
+        <span id="musicIcon" class="text-sm">🎵</span>
+        <span id="musicStatusText">Romantic Chime: OFF</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main App Container -->
+  <main class="relative z-10 max-w-3xl mx-auto px-4 pt-6 pb-24 space-y-10">
+
+    <!-- 1. HERO TITLE & BANNER -->
+    <section class="text-center pt-2 space-y-4">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-blush-200 text-blush-600 text-xs sm:text-sm font-semibold shadow-sm animate-float-slow">
+        <span>✨</span> 4 Glorious Years of Drama & Boundless Love <span>✨</span>
+      </div>
+      
+      <h1 class="text-4xl sm:text-6xl font-cursive font-bold text-transparent bg-clip-text bg-gradient-to-r from-blush-600 via-rose-500 to-blush-700 leading-tight">
+        Happy 4th Anniversary, Babyyyyy! ❤️
+      </h1>
+      
+      <p class="font-bengali text-gray-700 max-w-lg mx-auto text-base sm:text-lg leading-relaxed">
+        দেখতে দেখতে ৪টে বছর পার! কত ঝড়, ঝগড়াঝাঁটি, কান্নাকাটি আর তার সাথে একরাশ ভালোবাসা... <br class="hidden sm:inline">
+        <span class="text-blush-600 font-semibold">"তুই তুই-ই থাকবি, আমি আমি-ই থাকব—শুধু দিনগুলো একসাথে এগিয়ে যাবে!"</span>
+      </p>
+
+      <div class="flex flex-wrap justify-center items-center gap-2 pt-1 text-xs text-gray-600 font-medium">
+        <span class="px-3 py-1 rounded-full bg-white/80 border border-pink-100">👑 Drama Queen</span>
+        <span>•</span>
+        <span class="px-3 py-1 rounded-full bg-white/80 border border-pink-100">🍪 Brownie</span>
+        <span>•</span>
+        <span class="px-3 py-1 rounded-full bg-white/80 border border-pink-100">♾️ More to Go</span>
+      </div>
+    </section>
+
+    <!-- 2. LIVE RELATIONSHIP STOPWATCH / TICKER -->
+    <section class="glass-card rounded-3xl p-6 sm:p-7 space-y-4 border border-white/90">
+      <div class="flex items-center justify-between border-b border-pink-100 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">⏱️</span>
+          <h2 class="text-sm sm:text-base font-bold text-gray-800">Together In Love (Live Stopwatch)</h2>
+        </div>
+        <span class="text-[11px] font-mono text-blush-600 bg-blush-50 px-2 py-0.5 rounded-md border border-blush-200">
+          Running Live • 4 Years+
+        </span>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+        <!-- Days -->
+        <div class="bg-white/80 rounded-2xl p-3 border border-pink-100/80 shadow-sm">
+          <span id="counterDays" class="block font-mono text-2xl sm:text-3xl font-extrabold text-blush-600">1461</span>
+          <span class="text-[11px] text-gray-500 font-medium">Days</span>
+        </div>
+        <!-- Hours -->
+        <div class="bg-white/80 rounded-2xl p-3 border border-pink-100/80 shadow-sm">
+          <span id="counterHours" class="block font-mono text-2xl sm:text-3xl font-extrabold text-blush-600">00</span>
+          <span class="text-[11px] text-gray-500 font-medium">Hours</span>
+        </div>
+        <!-- Minutes -->
+        <div class="bg-white/80 rounded-2xl p-3 border border-pink-100/80 shadow-sm">
+          <span id="counterMins" class="block font-mono text-2xl sm:text-3xl font-extrabold text-blush-600">00</span>
+          <span class="text-[11px] text-gray-500 font-medium">Minutes</span>
+        </div>
+        <!-- Seconds -->
+        <div class="bg-white/80 rounded-2xl p-3 border border-pink-100/80 shadow-sm">
+          <span id="counterSecs" class="block font-mono text-2xl sm:text-3xl font-extrabold text-rose-500">00</span>
+          <span class="text-[11px] text-gray-500 font-medium">Seconds</span>
+        </div>
+      </div>
+      
+      <p class="text-center text-xs font-bengali text-gray-500 pt-1">
+        প্রতিটি সেকেন্ডে আমাদের ভালোবাসা একটু একটু করে বেড়ে চলেছে... 🕊️
+      </p>
+    </section>
+
+    <!-- 3. INTERACTIVE "DRAMA-O-METER" (QUEEN'S MOOD SLIDER) -->
+    <section class="glass-card rounded-3xl p-6 sm:p-7 space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
+          <span>😼</span> Queen's Drama-O-Meter
+        </h2>
+        <span class="text-xs text-blush-600 font-semibold bg-blush-50 px-2 py-0.5 rounded-full">Interactive</span>
+      </div>
+
+      <p class="text-xs sm:text-sm text-gray-600 font-bengali">
+        আজকে ব্রাউনির মুড ঠিক কোন লেভেলে আছে? নিচে স্লাইডারটি টেনে চেক করে নাও:
+      </p>
+
+      <!-- Slider Component -->
+      <div class="pt-2">
+        <input 
+          id="moodSlider" 
+          type="range" 
+          min="0" 
+          max="3" 
+          step="1" 
+          value="2" 
+          class="w-full accent-blush-500 h-2.5 bg-pink-200 rounded-lg cursor-pointer"
+        />
+        <div class="flex justify-between text-[11px] sm:text-xs text-gray-500 font-bengali pt-2 px-1">
+          <span>শান্ত বিড়াল ছানা 🐱</span>
+          <span>হালকা অভিমান 🥺</span>
+          <span>ফুল ড্রামা কুইন 😼</span>
+          <span>Space Chai Mode 🚀</span>
+        </div>
+      </div>
+
+      <!-- Reactive Output Card -->
+      <div id="moodReactionBox" class="p-4 rounded-2xl bg-white/95 border border-pink-200 shadow-sm flex items-start gap-3 transition-all duration-300">
+        <span id="moodReactionEmoji" class="text-3xl sm:text-4xl">😼</span>
+        <div class="space-y-1">
+          <h4 id="moodReactionTitle" class="font-bold text-sm sm:text-base text-blush-600 font-bengali">ফুল ড্রামা কুইন ব্লাস্ট!</h4>
+          <p id="moodReactionDesc" class="text-xs sm:text-sm text-gray-700 font-bengali leading-relaxed">
+            "আমি তো রানী, এত বকা সহ্য করতে পারি না!" — একটু পরেই কান্নাকাটি, রাগ ভাঙানো আর সাথে টাইট হাগ!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. WAX-SEALED ENVELOPE (UNFOLDING BENGALI LOVE LETTER) -->
+    <section class="glass-card rounded-3xl p-6 sm:p-8 space-y-6">
+      <div class="text-center space-y-1">
+        <span class="text-xs font-semibold text-blush-600 uppercase tracking-widest">Secret Message</span>
+        <h2 class="text-2xl font-bold font-cursive text-gray-800">The 4th Anniversary Love Letter</h2>
+        <p class="text-xs sm:text-sm text-gray-500 font-bengali">খামটির ওপর ক্লিক করে মনের কথাটি খুলে পড়ো</p>
+      </div>
+
+      <!-- Clickable Wax Sealed Envelope Presentation -->
+      <div id="envelopeWrapper" class="relative max-w-sm mx-auto cursor-pointer group transition-transform duration-300 hover:scale-105 active:scale-95">
+        <div class="bg-gradient-to-br from-pink-100 via-rose-50 to-pink-200 rounded-2xl p-6 border-2 border-blush-300 shadow-md text-center space-y-3 relative overflow-hidden">
+          
+          <!-- Diagonal envelope fold lines design -->
+          <div class="absolute inset-0 border-t-2 border-pink-200 pointer-events-none opacity-40"></div>
+          
+          <!-- Wax Seal Button -->
+          <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-tr from-rose-700 to-blush-500 flex items-center justify-center text-white text-2xl shadow-lg animate-wax-glow border-2 border-white/60">
+            💌
+          </div>
+
+          <div class="font-cursive text-xl font-bold text-blush-600">To My Beloved Brownie</div>
+          <p class="text-xs font-bengali text-gray-600 font-medium">
+            (এখানে ট্যাপ করে চিঠিটি আনলক করো)
+          </p>
+        </div>
+      </div>
+
+      <!-- Unfolded Letter Content (Hidden by default) -->
+      <div id="letterBody" class="hidden transition-all duration-700 ease-out space-y-6 pt-2 font-bengali">
+        
+        <!-- Bengali Emotional Letter Card -->
+        <div class="p-5 sm:p-7 rounded-2xl bg-white/95 border border-pink-200 shadow-inner space-y-4 text-gray-700 text-sm sm:text-base leading-relaxed">
+          <div class="flex items-center justify-between border-b border-pink-100 pb-2">
+            <span class="font-cursive text-xl sm:text-2xl font-bold text-blush-600">Happy 4th Anniversary, My Drama Queen! ❤️</span>
+            <span class="text-xs text-gray-400">Oct 2026</span>
+          </div>
+
+          <p>
+            তোর মেসেজটা পড়ে সত্যি ভেতরটা কেমন যেন করে উঠলো রে। দেখতে দেখতে চারটে বছর কেটে গেল, ভাবলেই গায়ে কাঁটা দেয়। আমাদের এই চারটে বছর কোনো রূপকথার মতো পারফেক্ট ছিল না—বরং একদম সত্যি একটা জার্নি ছিল। কত লড়াই, কত ভুল বোঝাবুঝি, চিৎকার, বাচ্চাদের মতো কান্না, মাঝেমধ্যে মনে হওয়া যে আর বুঝি পারছি না... আর তার ঠিক পরেই আবার দুজনে দুজনকে জড়িয়ে ধরে শক্ত করে আঁকড়ে ধরা।
+          </p>
+
+          <p>
+            তুই যে বললি না <em>"তোর মতো অত ভালো হয়তো আমি তোকে বাসতে পারি না"</em>—এই ভুল ভাবনাটা মাথা থেকে একদম মুছে ফেল। ভালোবাসার কোনো পরিমাপ হয় না রে পাগলি। তুই যে তোর রাগ, জেদ, অভিমান, সমস্ত পাগলামি নির্দ্বিধায় আমার ওপর উগরে দিতে পারিস, আর দিনশেষে আমার বুকেই শান্তি খুঁজিস—এটাই আমার কাছে পৃথিবীর সবচেয়ে খাঁটি ভালোবাসা। তুই যেমন আছিস, একদম তেমনই থাকবি; আমি তো তোকেই ভালোবেসেছি, কোনো নিখুঁত পুতুলকে নয়।
+          </p>
+
+          <p>
+            তোর মাঝে মাঝেই মাথা গরম হয়ে "স্পেস চাই" বলা, কথা বন্ধ করে মুখ ফুলিয়ে বসে থাকা, আবার খানিকক্ষণ পরেই এসে জড়িয়ে ধরা—এইসব নিয়েই তুই আমার জীবনের সবচেয়ে সুন্দর অংশ। তোর ওপর রাগ করলেও তোকে ছেড়ে থাকার কথা আমি এক মুহূর্তের জন্যেও ভাবতে পারি না। তোর সমস্ত যন্ত্রণা আর সমস্ত পাগলামি সারাজীবন সামলানোর দায়িত্বটা কিন্তু শুধু আমারই। চারটে বছর তো সবে পথচলার শুরু, সামনে আরও কত শত ঝড়-ঝাপটা আসবে, কিন্তু তোর হাতটা আমি কখনোই ছাড়ব না।
+          </p>
+
+          <p class="font-semibold text-blush-600 pt-2 border-t border-pink-50">
+            অনেক অনেক ভালোবাসি তোকে, আমার ব্রাউনি! কাল দেখা হলেই কিন্তু ওই প্রমিজ করা কিসসি-টা আমার আগে চাই! 😚❤️
+          </p>
+        </div>
+
+        <div class="text-center">
+          <button id="closeLetterBtn" class="px-4 py-1.5 rounded-full bg-blush-100 text-blush-600 text-xs font-semibold hover:bg-blush-200 transition">
+            চিঠিটি আবার ভাঁজ করো ✉️
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. THE POEM SCROLL (PARCHMENT AESTHETIC) -->
+    <section class="parchment-scroll rounded-3xl p-6 sm:p-9 text-center space-y-4 relative overflow-hidden">
+      <!-- Decorative floral corners -->
+      <span class="absolute top-3 left-3 text-lg opacity-40">🌸</span>
+      <span class="absolute top-3 right-3 text-lg opacity-40">🌸</span>
+      <span class="absolute bottom-3 left-3 text-lg opacity-40">🌸</span>
+      <span class="absolute bottom-3 right-3 text-lg opacity-40">🌸</span>
+
+      <div class="text-xs uppercase tracking-widest text-goldAccent font-bold">A Heartfelt Bengali Poem</div>
+      <h3 class="text-2xl font-cursive font-bold text-gray-800">চার বছরের খুনসুটি</h3>
+
+      <div class="text-base sm:text-lg font-bengali leading-loose text-gray-800 italic max-w-md mx-auto pt-2">
+        চার বছরের এই উথাল-পাথাল,<br>
+        কত ঝগড়া, কত কথা,<br>
+        তবু তোর বুকেই শান্ত হয়ে<br>
+        জুড়িয়ে যায় সব ব্যথা।<br><br>
+        তুই আমার ওই রাগী রানী,<br>
+        একটুখানি মিষ্টি ঝড়,<br>
+        তোর চোখেই আমার আস্ত আকাশ,<br>
+        তোর কাছেই আমার ঘর।<br><br>
+        হাজার বছর এমনি কাটুক,<br>
+        থাকুক খুনসুটি আর হাসি,<br>
+        শত ঝড়ের পরেও জেনে রাখিস—<br>
+        <strong class="text-blush-600 not-italic font-semibold">তোকেই সবচেয়ে বেশি ভালোবাসি। 🫂❤️</strong>
+      </div>
+    </section>
+
+    <!-- 6. "WHY I STILL LOVE YOU" INTERACTIVE REASONS JAR -->
+    <section class="glass-card rounded-3xl p-6 sm:p-7 space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
+            <span>🫙</span> Why I Love You (Even When You're Crazy)
+          </h2>
+          <p class="text-xs text-gray-500 font-bengali">জার-এ ট্যাপ করে নতুন মিষ্টি কারণ বের করো</p>
+        </div>
+        <button id="drawReasonBtn" class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-blush-500 to-rose-500 text-white text-xs font-semibold shadow hover:opacity-95 active:scale-95 transition">
+          Draw Note ✨
+        </button>
+      </div>
+
+      <!-- The Reason Display Card -->
+      <div id="reasonCard" class="p-5 rounded-2xl bg-white/90 border border-pink-200/90 shadow-sm text-center min-h-[110px] flex flex-col justify-center items-center transition-all duration-300">
+        <span class="text-2xl mb-1" id="reasonEmoji">🥰</span>
+        <p id="reasonText" class="font-bengali text-sm sm:text-base text-gray-700 font-medium">
+          "তোর শত অভিমান আর রাগের পরেও সবার শেষে আমার বুকেই মুখ গুঁজে শান্তি খোঁজা।"
+        </p>
+      </div>
+    </section>
+
+    <!-- 7. OUR 4-YEAR MEMORY TIMELINE -->
+    <section class="glass-card rounded-3xl p-6 sm:p-7 space-y-5">
+      <div class="border-b border-pink-100 pb-3">
+        <h2 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
+          <span>🌿</span> 4-Year Milestone Journey
+        </h2>
+        <p class="text-xs text-gray-500 font-bengali">যেভাবে শুরু হয়ে আজ ৪ বছরের মজবুত ভিত্তি</p>
+      </div>
+
+      <div class="relative border-l-2 border-blush-200 ml-4 sm:ml-6 space-y-6 pt-1">
+        
+        <!-- Year 1 -->
+        <div class="relative pl-6 group">
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blush-400 border-2 border-white shadow"></div>
+          <div class="text-xs font-bold text-blush-600 uppercase font-mono">Year 1 • The Spark & Crush</div>
+          <h4 class="text-sm font-bold text-gray-800 font-bengali">শুরুর দিনগুলোর মিষ্টি অনুভূতি</h4>
+          <p class="text-xs text-gray-600 font-bengali mt-0.5">লজ্জা লজ্জা চোখে তাকানো, ফোনে ঘণ্টার পর ঘণ্টা রাত জেগে কথা বলা আর ধীরে ধীরে মন দেওয়া-নেওয়া।</p>
+        </div>
+
+        <!-- Year 2 -->
+        <div class="relative pl-6 group">
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blush-500 border-2 border-white shadow"></div>
+          <div class="text-xs font-bold text-blush-600 uppercase font-mono">Year 2 • Paglami & Bonding</div>
+          <h4 class="text-sm font-bold text-gray-800 font-bengali">একসাথে বড় হয়ে ওঠা</h4>
+          <p class="text-xs text-gray-600 font-bengali mt-0.5">সব ধরণের সিক্রেট শেয়ার করা, একসাথে পাগলামি করা আর একে অপরকে সবচেয়ে আপন ভেবে ভরসা করা।</p>
+        </div>
+
+        <!-- Year 3 -->
+        <div class="relative pl-6 group">
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-rose-500 border-2 border-white shadow"></div>
+          <div class="text-xs font-bold text-blush-600 uppercase font-mono">Year 3 • The Storms & Real Love</div>
+          <h4 class="text-sm font-bold text-gray-800 font-bengali">ঝগড়া, ভুল বোঝাবুঝি ও মান-অভিমান</h4>
+          <p class="text-xs text-gray-600 font-bengali mt-0.5">মাথায় ক্র্যাক হওয়া, "স্পেস চাই" বলে চিৎকার—আর সবশেষে হাত দুটো আরও শক্ত করে ধরে ফেলা।</p>
+        </div>
+
+        <!-- Year 4 -->
+        <div class="relative pl-6 group">
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blush-600 border-2 border-white shadow ring-4 ring-pink-100"></div>
+          <div class="text-xs font-bold text-blush-600 uppercase font-mono">Year 4 & Beyond • Still My Queen</div>
+          <h4 class="text-sm font-bold text-gray-800 font-bengali">একসাথে পুরো জীবন বাকি!</h4>
+          <p class="text-xs text-gray-600 font-bengali mt-0.5">তুই তুই-ই থাকবি, আমি আমি-ই থাকব। সারাজীবন তোকে সামলানোর দায়িত্ব শুধু আমারই! ♾️</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 8. KISSIE REDEMPTION VOUCHER (INTERACTIVE SCRATCH / STAMP) -->
+    <section class="glass-card rounded-3xl p-6 sm:p-7 space-y-5 text-center">
+      <div>
+        <span class="inline-block px-3 py-1 bg-blush-100 text-blush-600 rounded-full text-xs font-semibold mb-1">
+          Special Gift Pass 🎟️
+        </span>
+        <h2 class="text-2xl font-bold font-cursive text-gray-800">
+          Redeem Tomorrow's Kissie Voucher
+        </h2>
+        <p class="text-xs sm:text-sm font-bengali text-gray-600 max-w-sm mx-auto">
+          "কালকে তোমায় kissie দিয়ে দেবো💗" — প্রমিজ মনে আছে? নিচের কার্ডে আঙুল দিয়ে ঘষে/ক্লিক করে কুপন আনলক করো!
+        </p>
+      </div>
+
+      <!-- Scratchable Card Box -->
+      <div class="max-w-sm mx-auto relative rounded-2xl overflow-hidden shadow-lg border border-pink-200">
+        
+        <!-- Underlying Revealed Card -->
+        <div class="p-6 bg-gradient-to-br from-pink-500 via-rose-500 to-blush-600 text-white space-y-3">
+          <div class="text-4xl animate-bounce">💋</div>
+          <div class="font-bold text-lg tracking-wider text-yellow-200">VOUCHER CLAIMED!</div>
+          <p class="text-xs font-bengali text-pink-100 leading-relaxed">
+            কাল দেখা হলেই আনলিমিটেড কিসসি আর শক্ত করে জড়িয়ে ধরার বুকিং কনফার্ম হয়ে গেল! 🥰
+          </p>
+          <div class="text-[10px] font-mono tracking-widest text-white/70 pt-1">
+            CODE: BROWNIE-4YEARS-FOREVER
+          </div>
+        </div>
+
+        <!-- Scratch Overlay Canvas -->
+        <canvas id="scratchCanvas"></canvas>
+      </div>
+
+      <p class="text-[11px] text-gray-400 font-bengali">
+        (আঙুল দিয়ে ঘষো বা স্ক্র্যাচ করো)
+      </p>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="text-center pt-4 pb-8 space-y-2 text-gray-500 text-xs font-bengali">
+      <p>Made with endless love by Deepra for my forever Drama Queen Brownie ❤️</p>
+      <p class="text-[10px] text-gray-400">Happy 4th Anniversary • October 2026</p>
+    </footer>
+
+  </main>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    /* ==========================================================
+       1. CANVAS: FLOATING PARTICLES WITH TOUCH/MOUSE ATTRACTION
+       ========================================================== */
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    const mouse = { x: -1000, y: -1000 };
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        mouse.x = e.touches[0].clientX;
+        mouse.y = e.touches[0].clientY;
+      }
+    });
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height + Math.random() * 80;
+        this.size = Math.random() * 12 + 8;
+        this.speedY = Math.random() * 0.8 + 0.3;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.opacity = Math.random() * 0.35 + 0.15;
+        this.type = Math.random() > 0.4 ? 'heart' : 'sparkle';
+        this.color = ['#f43f73', '#fda4bc', '#B76E79', '#fb7197', '#e11d5a'][Math.floor(Math.random() * 5)];
+      }
+      update() {
+        this.y -= this.speedY;
+        this.x += this.speedX;
+
+        // Mouse repulsion / float gentle interaction
+        const dx = mouse.x - this.x;
+        const dy = mouse.y - this.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 80) {
+          this.x -= dx * 0.03;
+          this.y -= dy * 0.03;
+        }
+
+        if (this.y < -30) this.reset();
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
+        ctx.fillStyle = this.color;
+        
+        if (this.type === 'heart') {
+          const topCurveHeight = this.size * 0.3;
+          ctx.beginPath();
+          ctx.moveTo(this.x, this.y + topCurveHeight);
+          ctx.bezierCurveTo(this.x, this.y, this.x - this.size / 2, this.y, this.x - this.size / 2, this.y + topCurveHeight);
+          ctx.bezierCurveTo(this.x - this.size / 2, this.y + (this.size + topCurveHeight) / 2, this.x, this.y + (this.size + topCurveHeight) / 2 + this.size / 3, this.x, this.y + this.size);
+          ctx.bezierCurveTo(this.x, this.y + (this.size + topCurveHeight) / 2 + this.size / 3, this.x + this.size / 2, this.y + (this.size + topCurveHeight) / 2, this.x + this.size / 2, this.y + topCurveHeight);
+          ctx.bezierCurveTo(this.x + this.size / 2, this.y, this.x, this.y, this.x, this.y + topCurveHeight);
+          ctx.closePath();
+          ctx.fill();
+        } else {
+          // Sparkle star
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size * 0.2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+    }
+
+    const count = Math.min(35, Math.floor(window.innerWidth / 22));
+    for (let i = 0; i < count; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    /* ==========================================================
+       2. LIVE RELATIONSHIP STOPWATCH (4 YEARS COUNTUP)
+       ========================================================== */
+    // Calculating relative to 4 years ago from today
+    const now = new Date();
+    const fourYearsAgo = new Date(now.getFullYear() - 4, now.getMonth(), now.getDate(), now.getHours(), now.getMinutes());
+
+    function updateLiveStopwatch() {
+      const current = new Date();
+      const diffMs = current - fourYearsAgo;
+
+      const totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      const totalHours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+      const totalMins = Math.floor((diffMs / (1000 * 60)) % 60);
+      const totalSecs = Math.floor((diffMs / 1000) % 60);
+
+      document.getElementById('counterDays').textContent = totalDays;
+      document.getElementById('counterHours').textContent = String(totalHours).padStart(2, '0');
+      document.getElementById('counterMins').textContent = String(totalMins).padStart(2, '0');
+      document.getElementById('counterSecs').textContent = String(totalSecs).padStart(2, '0');
+    }
+    setInterval(updateLiveStopwatch, 1000);
+    updateLiveStopwatch();
+
+    /* ==========================================================
+       3. QUEEN'S MOOD SLIDER (DRAMA-O-METER)
+       ========================================================== */
+    const moodSlider = document.getElementById('moodSlider');
+    const moodReactionEmoji = document.getElementById('moodReactionEmoji');
+    const moodReactionTitle = document.getElementById('moodReactionTitle');
+    const moodReactionDesc = document.getElementById('moodReactionDesc');
+
+    const moodResponses = [
+      {
+        emoji: '🐱',
+        title: 'শান্ত বিড়াল ছানা মুড 😇',
+        desc: 'যখন কোনো অভিযোগ নেই, শুধু মিটিমিটি হাসে আর আদর খায় (এই মিষ্টি রূপ বছরে বিশেষ কিছু দিনেই দেখা যায়!)।'
+      },
+      {
+        emoji: '🥺',
+        title: 'হালকা অভিমান ও মুখ ভারী 🥺',
+        desc: '"আমি তোমার সাথে কথাই বলব না!" — ঠোঁট ফুলিয়ে বসে থাকা, অথচ আসলে মনের ভেতর অপেক্ষা কখন আমি যেচে মানাব!'
+      },
+      {
+        emoji: '😼',
+        title: 'ফুল ড্রামা কুইন ব্লাস্ট! 😼',
+        desc: '"আমি তো রানী, এত বকা সহ্য করতে পারি না!" — একটু পরেই বাচ্চাদের মতো কান্নাকাটি, রাগ ভাঙানো আর সাথে টাইট হাগ!'
+      },
+      {
+        emoji: '🚀',
+        title: 'Space Chai Mode! 🤯',
+        desc: '"আমার এখন স্পেস চাই!" — জানি মাথা ক্র্যাক হয়ে বলেছিস, বাট তুইও আমায় ছাড়া থাকতে পারবি না, আমিও তোকে ছাড়া বাঁচব না!'
+      }
+    ];
+
+    moodSlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value);
+      const data = moodResponses[val];
+      moodReactionEmoji.textContent = data.emoji;
+      moodReactionTitle.textContent = data.title;
+      moodReactionDesc.textContent = data.desc;
+    });
+
+    /* ==========================================================
+       4. WEB AUDIO API: SYNTHESIZED MUSIC BOX & SOUND EFFECTS
+       ========================================================== */
+    let audioCtx = null;
+    let isPlayingMelody = false;
+    let melodyTimer = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // Play a gentle music box chime
+    function playChime(freq, duration = 0.8) {
+      const ctx = getAudioContext();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+      gain.gain.setValueAtTime(0.001, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start();
+      osc.stop(ctx.currentTime + duration);
+    }
+
+    // Play cute kiss sound effect
+    function playKissChime() {
+      const ctx = getAudioContext();
+      playChime(523.25, 0.2); // C5
+      setTimeout(() => playChime(659.25, 0.2), 100); // E5
+      setTimeout(() => playChime(783.99, 0.4), 200); // G5
+      setTimeout(() => playChime(1046.50, 0.6), 320); // C6
+    }
+
+    // Romantic music box looping sequence
+    const lofiNotes = [
+      392.00, 440.00, 523.25, 659.25, 
+      587.33, 523.25, 440.00, 392.00, 
+      349.23, 392.00, 440.00, 523.25, 
+      440.00, 392.00, 329.63, 392.00
+    ];
+    let noteStep = 0;
+
+    function melodyLoop() {
+      if (!isPlayingMelody) return;
+      playChime(lofiNotes[noteStep % lofiNotes.length], 0.9);
+      noteStep++;
+      melodyTimer = setTimeout(melodyLoop, 650);
+    }
+
+    const musicToggleBtn = document.getElementById('musicToggleBtn');
+    const musicIcon = document.getElementById('musicIcon');
+    const musicStatusText = document.getElementById('musicStatusText');
+
+    musicToggleBtn.addEventListener('click', () => {
+      getAudioContext();
+      if (isPlayingMelody) {
+        isPlayingMelody = false;
+        clearTimeout(melodyTimer);
+        musicIcon.textContent = '🎵';
+        musicStatusText.textContent = 'Romantic Chime: OFF';
+        musicToggleBtn.classList.remove('bg-blush-500', 'text-white');
+      } else {
+        isPlayingMelody = true;
+        melodyLoop();
+        musicIcon.textContent = '🎶';
+        musicStatusText.textContent = 'Romantic Chime: ON';
+        musicToggleBtn.classList.add('bg-blush-500', 'text-white');
+      }
+    });
+
+    /* ==========================================================
+       5. LOVE LETTER OPEN/CLOSE WITH WAX SEAL SOUND
+       ========================================================= */
+    const envelopeWrapper = document.getElementById('envelopeWrapper');
+    const letterBody = document.getElementById('letterBody');
+    const closeLetterBtn = document.getElementById('closeLetterBtn');
+
+    function openLetter() {
+      envelopeWrapper.classList.add('hidden');
+      letterBody.classList.remove('hidden');
+
+      // Chime sound & celebratory soft confetti
+      playKissChime();
+      confetti({
+        particleCount: 35,
+        spread: 60,
+        origin: { y: 0.6 },
+        colors: ['#fda4bc', '#f43f73', '#e11d5a']
+      });
+    }
+
+    function closeLetter() {
+      letterBody.classList.add('hidden');
+      envelopeWrapper.classList.remove('hidden');
+    }
+
+    envelopeWrapper.addEventListener('click', openLetter);
+    closeLetterBtn.addEventListener('click', closeLetter);
+
+    /* ==========================================================
+       6. "WHY I STILL LOVE YOU" REASONS JAR
+       ========================================================== */
+    const reasons = [
+      { emoji: '🥺', text: '"তোর শত রাগ আর কান্নাকাটির পর আবার নিজে থেকেই জড়িয়ে ধরে ক্ষমা চাওয়া।"' },
+      { emoji: '😼', text: '"তুই যেভাবে অধিকার নিয়ে কুইন-এর মতো আমার ওপর হুকুম চালাস!"' },
+      { emoji: '🤍', text: '"আমার বাড়ির লোকও তোকে যেটুকু সহ্য করে না, আমার সেই পাগলামি সহ্য করার মতো মন।"' },
+      { emoji: '✨', text: '"হাজার ঝামেলার পরেও দিনশেষে আমার বুকেই তোর শান্তির ঘর খুঁজে পাওয়া।"' },
+      { emoji: '☕', text: '"যখন বলিস \'আমার স্পেস চাই\' আর তার ঠিক আধঘণ্টা পর মেসেজ না পেলে ছটফট করিস!"' },
+      { emoji: '💋', text: '"তোর ওই মিষ্টি প্রমিজগুলো—\'কালকে তোমায় kissie দিয়ে দেবো\'!"' }
+    ];
+
+    let currentReasonIdx = 0;
+    const drawReasonBtn = document.getElementById('drawReasonBtn');
+    const reasonCard = document.getElementById('reasonCard');
+    const reasonEmoji = document.getElementById('reasonEmoji');
+    const reasonText = document.getElementById('reasonText');
+
+    drawReasonBtn.addEventListener('click', () => {
+      currentReasonIdx = (currentReasonIdx + 1) % reasons.length;
+      const r = reasons[currentReasonIdx];
+
+      reasonCard.style.opacity = '0';
+      reasonCard.style.transform = 'scale(0.95)';
+
+      setTimeout(() => {
+        reasonEmoji.textContent = r.emoji;
+        reasonText.textContent = r.text;
+        reasonCard.style.opacity = '1';
+        reasonCard.style.transform = 'scale(1)';
+        playChime(587.33, 0.3);
+      }, 150);
+    });
+
+    /* ==========================================================
+       7. SCRATCHABLE DIGITAL KISSIE VOUCHER
+       ========================================================== */
+    const scratchCanvas = document.getElementById('scratchCanvas');
+    const sCtx = scratchCanvas.getContext('2d');
+    let isScratching = false;
+    let scratchedPixels = 0;
+    let hasClaimed = false;
+
+    function initScratchCanvas() {
+      const rect = scratchCanvas.getBoundingClientRect();
+      scratchCanvas.width = rect.width;
+      scratchCanvas.height = rect.height;
+
+      // Draw metallic blush scratch layer
+      sCtx.fillStyle = '#f8bbd0';
+      sCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
+
+      // Decorative text on scratch surface
+      sCtx.fillStyle = '#880e4f';
+      sCtx.font = 'bold 15px "Hind Siliguri", sans-serif';
+      sCtx.textAlign = 'center';
+      sCtx.fillText('এখানে আঙুল দিয়ে স্ক্র্যাচ করো 🪙', scratchCanvas.width / 2, scratchCanvas.height / 2 - 5);
+      sCtx.font = '12px "Inter", sans-serif';
+      sCtx.fillText('Scratch to Reveal Tomorrow\'s Kissie', scratchCanvas.width / 2, scratchCanvas.height / 2 + 18);
+    }
+    window.addEventListener('load', initScratchCanvas);
+
+    function scratch(e) {
+      if (hasClaimed) return;
+      const rect = scratchCanvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+
+      sCtx.globalCompositeOperation = 'destination-out';
+      sCtx.beginPath();
+      sCtx.arc(x, y, 22, 0, Math.PI * 2);
+      sCtx.fill();
+
+      scratchedPixels++;
+      // Once scratched enough, celebrate and clear completely
+      if (scratchedPixels > 25 && !hasClaimed) {
+        hasClaimed = true;
+        scratchCanvas.style.transition = 'opacity 0.6s ease';
+        scratchCanvas.style.opacity = '0';
+        setTimeout(() => { scratchCanvas.style.display = 'none'; }, 600);
+
+        playKissChime();
+        confetti({
+          particleCount: 120,
+          spread: 75,
+          origin: { y: 0.7 },
+          colors: ['#ff4081', '#f50057', '#ff80ab', '#ffffff']
+        });
+      }
+    }
+
+    scratchCanvas.addEventListener('mousedown', (e) => { isScratching = true; scratch(e); });
+    window.addEventListener('mouseup', () => { isScratching = false; });
+    scratchCanvas.addEventListener('mousemove', (e) => { if (isScratching) scratch(e); });
+
+    scratchCanvas.addEventListener('touchstart', (e) => { isScratching = true; scratch(e); });
+    window.addEventListener('touchend', () => { isScratching = false; });
+    scratchCanvas.addEventListener('touchmove', (e) => { if (isScratching) scratch(e); });
+  </script>
+</body>
+</html>
