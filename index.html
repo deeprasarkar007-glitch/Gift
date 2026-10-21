@@ -241,7 +241,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* Swipeable Photo Gallery */
     .gallery-container {
       position: relative;
       overflow: hidden;
@@ -395,7 +394,6 @@
       background: var(--primary);
     }
 
-    /* Poem Scroll */
     .poem-scroll {
       background: linear-gradient(145deg, #fffcf4 0%, #fef3c7 100%);
       border: 1px solid rgba(217, 119, 6, 0.25);
@@ -422,7 +420,6 @@
       font-weight: 600;
     }
 
-    /* Love Letter */
     .letter-card {
       position: relative;
       background: linear-gradient(175deg, #ffffff 0%, #fffaf9 100%);
@@ -490,7 +487,6 @@
       color: var(--primary-dark);
     }
 
-    /* Drama-o-meter */
     .meter-section {
       text-align: center;
     }
@@ -856,7 +852,7 @@
       <div class="status-box" id="statusBox">
         <div class="status-emoji" id="statusEmoji">👑</div>
         <div class="status-title" id="statusTitle">Full Drama Queen Mode</div>
-        <div class="status-reaction" id="statusReaction">"আমি তো কুইন, অত বকা নিতে পারিনা!"</div>
+        <div class="status-reaction" id="statusReaction">"আমি তো কুইন, ব্রাউনির অত বকা আমি নিতে পারিনা!"</div>
       </div>
     </section>
 
@@ -945,84 +941,84 @@
     setInterval(updateLiveClock, 1000);
     updateLiveClock();
 
-    /* 13 PHOTOS GALLERY CONFIGURATION */
+    /* 13 PHOTOS GALLERY CONFIGURATION (UPDATED EXACTLY TO .jpeg) */
     const galleryData = [
       {
-        image: "photo1.jpg",
+        image: "photo1.jpeg",
         fallback: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=800&auto=format&fit=crop",
         caption: "যেখান থেকে আমাদের মিষ্টি গল্পের শুরু... ✨",
         tag: "প্রথম দেখা • Memory 01"
       },
       {
-        image: "photo2.jpg",
+        image: "photo2.jpeg",
         fallback: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=800&auto=format&fit=crop",
         caption: "তোর ওই নিষ্পাপ মিষ্টি হাসিতেই আমার মন আটকে যায়! 🌸",
         tag: "ড্রামা কুইন • Memory 02"
       },
       {
-        image: "photo3.jpg",
+        image: "photo3.jpeg",
         fallback: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=800&auto=format&fit=crop",
         caption: "হাতে হাত রেখে কাটানো একলা বিকেলগুলো... 🌅",
         tag: "আমাদের সময় • Memory 03"
       },
       {
-        image: "photo4.jpg",
+        image: "photo4.jpeg",
         fallback: "https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=800&auto=format&fit=crop",
         caption: "তোর শত খুনসুটি আর অকারণ বায়না সামলানোর মুহূর্ত! 😼",
         tag: "পাগলামি • Memory 04"
       },
       {
-        image: "photo5.jpg",
+        image: "photo5.jpeg",
         fallback: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800&auto=format&fit=crop",
         caption: "শত কান্নাকাটি আর ঝগড়ার পরেও একে অপরকে আঁকড়ে ধরা 🫂",
         tag: "আনব্রেকেবল বন্ড • Memory 05"
       },
       {
-        image: "photo6.jpg",
+        image: "photo6.jpeg",
         fallback: "https://images.unsplash.com/photo-1494774157365-9e04c6720e47?q=80&w=800&auto=format&fit=crop",
         caption: "তোর পছন্দের সব পাগলামিগুলোতে আমার হাসিমুখে সম্মতি! ☕",
         tag: "আদর ও আবদার • Memory 06"
       },
       {
-        image: "photo7.jpg",
+        image: "photo7.jpeg",
         fallback: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop",
         caption: "ঝড় এলে একসাথে দাঁড়ানোর সাহস জোগায় এই চোখ দুটো। 🌧️",
         tag: "ভরসা • Memory 07"
       },
       {
-        image: "photo8.jpg",
+        image: "photo8.jpeg",
         fallback: "https://images.unsplash.com/photo-1531747056595-07f6cbbe10ad?q=80&w=800&auto=format&fit=crop",
         caption: "মুখ ফুলিয়ে রাগ করে থাকা আমার সবচেয়ে প্রিয় দৃশ্য! 🧸",
         tag: "মিষ্টি অভিমান • Memory 08"
       },
       {
-        image: "photo9.jpg",
+        image: "photo9.jpeg",
         fallback: "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800&auto=format&fit=crop",
         caption: "হাজার মানুষের ভিড়েও আমি শুধু তোকেই খুঁজে পাই ❤️",
         tag: "আমার পৃথিবী • Memory 09"
       },
       {
-        image: "photo10.jpg",
+        image: "photo10.jpeg",
         fallback: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop",
         caption: "তোর কাঁধে মাথা রাখার পর দুনিয়ার সব দুশ্চিন্তা গায়েব! ✨",
         tag: "শান্তির আশ্রয় • Memory 10"
       },
       {
-        image: "photo11.jpg",
+        image: "photo11.jpeg",
         fallback: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop",
         caption: "কত পথ পেরিয়ে এলাম আমরা... সব স্মৃতি আজও জীবন্ত। 🌿",
         tag: "পথচলা • Memory 11"
       },
       {
-        image: "photo12.jpg",
+        image: "photo12.jpeg",
         fallback: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=800&auto=format&fit=crop",
         caption: "তোর হাত শক্ত করে ধরে অনন্তকাল হেঁটে যেতে চাই। 💫",
         tag: "চিরন্তন প্রতিশ্রুতি • Memory 12"
       },
       {
-        image: "photo13.jpg",
+        image: "photo13.jpeg",
         fallback: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=800&auto=format&fit=crop",
-        caption: "৪ বছর পূর্ণ হলো... সামনে বাকি হাজারটা বছর! 🥂❤️",
+        caption: "৪ বছর পূর্ণ হলো... সামনে এখনও হাজারটা বছর বাকি! 🥂❤️",
         tag: "Happy 4th Anniversary Krishnakoli • Memory 13"
       }
     ];
